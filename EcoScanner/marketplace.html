@@ -3,40 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>EcoScanner - Marketplace</title>
+  <title>Premios de Aventurero — EcoScanner Adventures</title>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/components.css">
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="css/animations.css">
 </head>
 <body>
   <div class="app-container">
-    <div class="page">
+    <div class="page" style="padding-bottom: calc(var(--nav-h) + 8px);">
     
     <div class="content">
       <div class="flex items-c gap-3 mb-2 anim-fadeInDown">
-        <div style="background: #FFB300; padding: 8px; border-radius: 12px; font-size: 24px; color: white; display: flex; align-items: center;">
+        <div style="background: var(--adventure-amber); padding: 8px; border-radius: 12px; font-size: 24px; color: white; display: flex; align-items: center;">
           <i class='bx bxs-gift'></i>
         </div>
-        <h1 class="t-2xl fw-9 c-dark">Marketplace</h1>
+        <h1 class="t-2xl fw-9 c-dark" style="line-height: 1.1;">Premios de Aventurero</h1>
       </div>
       <p class="c-mid t-sm mb-4 fw-6 anim-fadeInDown delay-1">
-        Canjea tus Eco-Puntos por recompensas increíbles
+        Tus hazañas en el parque te otorgan recompensas reales.
       </p>
 
       <div class="sticky top-0 z-10 py-2 bg-app anim-scaleIn delay-2" style="position: sticky; top: -16px; background: var(--bg-app); padding-top: 16px; padding-bottom: 16px; z-index: 10;">
-        <div class="inline-flex items-c gap-2 px-4 py-2 bg-primary text-white rounded-full shadow-primary" style="background: var(--primary-gradient); color: white; border-radius: 999px; font-weight: 800;">
-          <i class='bx bx-sparkles' style="font-size: 18px;"></i>
-          <span id="user-pts" style="font-size: 16px;">0 Eco-Puntos</span>
+        <div class="inline-flex items-c gap-2 px-4 py-2 bg-primary text-white rounded-full shadow-primary" style="background: linear-gradient(135deg, var(--adventure-gold), var(--adventure-amber)); color: white; border-radius: 999px; font-weight: 800; box-shadow: 0 4px 12px rgba(255,184,48,0.4);">
+          <i class='bx bxs-star' style="font-size: 18px;"></i>
+          <span id="user-pts" style="font-size: 16px;">0 pts</span>
         </div>
       </div>
 
       <!-- Categories Filter -->
       <div class="flex gap-2 overflow-x-auto pb-2 mt-2 hide-scrollbar anim-slideUp delay-3" style="overflow-x: auto; white-space: nowrap; -ms-overflow-style: none; scrollbar-width: none;">
-        <div class="badge badge-primary px-3 py-2" style="font-size: 13px;">Todos</div>
-        <div class="badge badge-orange px-3 py-2" style="font-size: 13px;">Descuentos</div>
+        <div class="badge px-3 py-2" style="background: var(--adventure-gold); color: white; font-size: 13px;">Todos</div>
+        <div class="badge badge-primary px-3 py-2" style="font-size: 13px;">Comida</div>
         <div class="badge badge-purple px-3 py-2" style="font-size: 13px;">Fast Pass</div>
-        <div class="badge px-3 py-2" style="background: var(--green2); color: white; font-size: 13px;">Comida</div>
+        <div class="badge badge-orange px-3 py-2" style="font-size: 13px;">Merch</div>
       </div>
 
       <!-- Rewards Grid -->
@@ -51,40 +52,40 @@
     <div class="modal-sheet tc" style="padding-bottom: 40px;">
       <button class="modal-close-btn" id="btn-close-redeem">×</button>
       <div class="modal-handle"></div>
-      <div id="modal-icon" style="font-size: 64px; margin-bottom: 16px; color: var(--primary);"><i class='bx bxs-gift'></i></div>
+      <div id="modal-icon" style="font-size: 64px; margin-bottom: 16px; color: var(--adventure-gold);"><i class='bx bxs-gift'></i></div>
       <h2 class="t-xl fw-9 c-dark mb-2" id="modal-title">Canjear Premio</h2>
-      <p class="c-mid t-base mb-2 fw-6" id="modal-desc">¿Estás seguro que deseas canjear este premio por <span id="modal-cost" class="c-dark fw-8">0</span> puntos?</p>
-      <p class="t-sm fw-7 c-primary mb-6" id="modal-post-pts">Te quedarán 0 puntos.</p>
+      <p class="c-mid t-base mb-2 fw-6" id="modal-desc">¿Confirmas el canjeo por <span id="modal-cost" class="c-dark fw-8">0</span> pts?</p>
+      <p class="t-sm fw-7 c-primary mb-6" id="modal-post-pts">Te quedarán 0 pts.</p>
       
       <div class="flex gap-3">
         <button class="btn btn-secondary flex-1" id="btn-cancel">Cancelar</button>
-        <button class="btn btn-primary flex-1" id="btn-confirm">Sí, canjear</button>
+        <button class="btn btn-primary flex-1" id="btn-confirm" style="background: var(--adventure-gold); color: white; border: none;">Canjear</button>
       </div>
     </div>
   </div>
 
   <!-- Bottom Nav -->
   <nav class="bottom-nav">
-    <div class="nav-item" id="nav-index" onclick="location.href='index.html'">
-      <i class='bx bx-qr-scan nav-icon'></i>
-      <span class="nav-label">Escanear</span>
-    </div>
-    <div class="nav-item" id="nav-dashboard" onclick="location.href='dashboard.html'">
-      <i class='bx bx-trophy nav-icon'></i>
-      <span class="nav-label">Ranking</span>
-    </div>
-    <div class="nav-item active" id="nav-marketplace" onclick="location.href='marketplace.html'">
-      <i class='bx bx-gift nav-icon'></i>
-      <span class="nav-label">Premios</span>
-    </div>
-    <div class="nav-item" id="nav-map" onclick="location.href='mapa.html'">
-      <i class='bx bx-map-alt nav-icon'></i>
-      <span class="nav-label">Mapa</span>
-    </div>
-    <div class="nav-item" id="nav-profile" onclick="location.href='profile.html'">
-      <i class='bx bx-user nav-icon'></i>
-      <span class="nav-label">Perfil</span>
-    </div>
+    <a href="index.html" class="nav-item" id="nav-home">
+      <i class='bx bx-home-alt'></i>
+      <span>Inicio</span>
+    </a>
+    <a href="dashboard.html" class="nav-item" id="nav-ranking">
+      <i class='bx bx-trophy'></i>
+      <span>Ranking</span>
+    </a>
+    <a href="aventura.html" class="nav-item" id="nav-aventura">
+      <i class='bx bx-compass'></i>
+      <span>Aventura</span>
+    </a>
+    <a href="marketplace.html" class="nav-item active" id="nav-marketplace">
+      <i class='bx bx-gift'></i>
+      <span>Premios</span>
+    </a>
+    <a href="profile.html" class="nav-item" id="nav-profile">
+      <i class='bx bx-user'></i>
+      <span>Perfil</span>
+    </a>
   </nav>
   </div> <!-- app-container -->
 
@@ -92,11 +93,15 @@
   <script src="js/confetti.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      EcoApp.initNav('marketplace');
+      // Fix Nav highlighting since we replaced Map with Adventure on the main flow
+      const navs = document.querySelectorAll('.nav-item');
+      navs.forEach(n => n.classList.remove('active'));
+      document.getElementById('nav-marketplace').classList.add('active');
+
       const ptsEl = document.getElementById('user-pts');
       
       function updatePts() {
-        ptsEl.textContent = `${EcoApp.getPoints()} Eco-Puntos`;
+        ptsEl.textContent = `${EcoApp.getPoints()} pts`;
       }
       updatePts();
 
@@ -124,13 +129,19 @@
           if (!canAfford) btnClass = 'btn-secondary btn-disabled';
           
           let btnText = '<i class="bx bxs-zap" style="font-size: 18px;"></i> Canjear';
-          if (EcoApp.get().redeemedIds.includes(item.id)) {
+          if (EcoApp.getState().redeemedIds.includes(item.id)) {
             btnClass = 'btn-secondary btn-disabled';
             btnText = '<i class="bx bx-check"></i> Canjeado';
           }
 
+          let colorOverride = item.color;
+          if(item.id === 'r1') colorOverride = 'linear-gradient(135deg, #10B981, #047857)';
+          if(item.id === 'r2') colorOverride = 'linear-gradient(135deg, #8B5CF6, #6D28D9)';
+          if(item.id === 'r3') colorOverride = 'linear-gradient(135deg, #F59E0B, #D97706)';
+          if(item.id === 'r4') colorOverride = 'linear-gradient(135deg, #3B82F6, #1D4ED8)';
+
           el.innerHTML = `
-            <div class="reward-card-banner" style="background: ${item.color};">
+            <div class="reward-card-banner" style="background: ${colorOverride};">
               <div class="reward-icon" style="font-size: 40px; color: white; opacity: 0.9;">${item.icon}</div>
               <div class="reward-cat-tag" style="text-transform: capitalize;">${item.category}</div>
             </div>
@@ -139,11 +150,11 @@
               <div class="reward-desc">${item.desc}</div>
               <div class="reward-footer">
                 <div class="reward-cost">
-                  <i class='bx bx-star' style="color: #FFB300; font-size: 18px;"></i>
-                  <span style="font-size: 18px; color: ${canAfford ? 'var(--text-dark)' : 'var(--text-muted)'};">${item.cost}</span>
-                  <span style="font-size: 12px; font-weight: 600; color: var(--text-mid);">puntos</span>
+                  <i class='bx bxs-star' style="color: var(--adventure-gold); font-size: 18px;"></i>
+                  <span style="font-size: 18px; color: ${canAfford ? 'var(--text-dark)' : 'var(--text-muted)'}; font-weight: 800;">${item.cost}</span>
+                  <span style="font-size: 12px; font-weight: 600; color: var(--text-mid);">pts</span>
                 </div>
-                <button class="btn ${btnClass} btn-sm redeem-btn" data-id="${item.id}" style="padding: 10px 20px;">
+                <button class="btn ${btnClass} btn-sm redeem-btn" data-id="${item.id}" style="padding: 10px 20px; ${canAfford && !EcoApp.getState().redeemedIds.includes(item.id) ? 'background: var(--adventure-gold); color: white; border: none;' : ''}">
                   ${btnText}
                 </button>
               </div>
@@ -159,7 +170,7 @@
             mTitle.textContent = selectedReward.title;
             mCost.textContent = selectedReward.cost;
             mIcon.textContent = selectedReward.icon;
-            mPostPts.textContent = `Te quedarán ${userPts - selectedReward.cost} puntos.`;
+            mPostPts.textContent = `Te quedarán ${userPts - selectedReward.cost} pts.`;
             modal.classList.remove('hidden');
           });
         });
@@ -177,10 +188,10 @@
 
       document.getElementById('btn-confirm').addEventListener('click', () => {
         if (selectedReward && EcoApp.spendPoints(selectedReward.cost)) {
-          EcoApp.get().redeemedIds.push(selectedReward.id);
+          EcoApp.getState().redeemedIds.push(selectedReward.id);
           EcoApp.save();
           modal.classList.add('hidden');
-          Confetti.goldFire();
+          Confetti.fire(); // Assuming confetti exists
           updatePts();
           renderCatalog();
         }

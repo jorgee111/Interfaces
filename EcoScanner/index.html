@@ -3,61 +3,169 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>EcoScanner - Juega, Come, Impacta</title>
+  <title>EcoScanner Adventures — Tu Aventura Comienza Aquí</title>
+  <meta name="description" content="Explora el parque, descubre criaturas y desbloquea recompensas mientras cuidas el medio ambiente. ¡Sin descargas, sin registros!">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/components.css">
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="css/animations.css">
 </head>
 <body>
   <div class="app-container">
-    <div class="page flex-col justify-c" style="padding-bottom: var(--sp-6);">
-      
-      <!-- Leaf Logo and Title -->
-      <div class="tc mb-6 anim-fadeInDown">
-        <div style="background: var(--primary-gradient); display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 20px; margin-bottom: 16px; box-shadow: var(--shadow-sm);">
-          <i class='bx bx-leaf' style="color: white; font-size: 36px;"></i>
+    <div class="page" style="padding-bottom: calc(var(--nav-h) + 8px);">
+
+      <!-- ─── HEADER BAR ─── -->
+      <header class="top-bar anim-fadeInDown">
+        <div class="flex items-c gap-2">
+          <div style="background: var(--primary-gradient); display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 12px; box-shadow: var(--shadow-primary);">
+            <i class='bx bxs-leaf' style="color: white; font-size: 20px;"></i>
+          </div>
+          <div>
+            <span class="fw-9 t-lg c-dark" style="line-height:1;">EcoScanner</span>
+            <span class="badge-adventure" style="margin-left: 6px; vertical-align: middle;">Adventures</span>
+          </div>
         </div>
-        <h1 class="t-3xl fw-9 c-dark" style="line-height: 1.1;">
-          ¡Haz del Parque<br>un Lugar Más <br><span class="c-primary">Verde!</span>
+        <div style="font-size: 28px; animation: creatureFloat 3s ease-in-out infinite;">🦊</div>
+      </header>
+
+      <!-- ─── HERO SECTION ─── -->
+      <section class="hero-card anim-fadeInUp delay-1" id="hero-section" style="text-align:center;">
+        <h1 style="font-size: 24px; font-weight: 900; line-height: 1.25; margin-bottom: 12px; position: relative; z-index: 1;">
+          🗺️ Tu Aventura en el Parque Comienza Aquí
         </h1>
-        <p class="c-mid t-base mt-3 fw-6 px-4">
-          Recicla, gana puntos y desbloquea<br>recompensas increíbles
+        <p style="font-size: 14px; font-weight: 600; opacity: 0.9; line-height: 1.5; margin-bottom: 20px; position: relative; z-index: 1;">
+          Explora, descubre criaturas y desbloquea recompensas mientras haces del parque un lugar mejor
         </p>
-      </div>
-
-      <!-- Onboarding Steps -->
-      <div class="flex flex-col gap-3 mb-6">
-        <div class="onboard-step anim-slideUp delay-1">
-          <div class="onboard-step-icon" style="background: #E8F5E9; color: var(--primary-dark);">
-            <i class='bx bx-qr-scan'></i>
-          </div>
-          <div class="onboard-step-text">Escanea códigos QR en las bandejas y contenedores</div>
+        <!-- Floating Creatures Preview -->
+        <div class="flex justify-c gap-4" style="margin-bottom: 24px; position: relative; z-index: 1;">
+          <span style="font-size: 2.5rem; animation: creatureFloat 3s ease-in-out infinite; display: inline-block;">🦊</span>
+          <span style="font-size: 2.5rem; animation: creatureFloat 3s ease-in-out infinite 0.4s; display: inline-block;">🐢</span>
+          <span style="font-size: 2.5rem; animation: creatureFloat 3s ease-in-out infinite 0.8s; display: inline-block;">🦉</span>
         </div>
-        <div class="onboard-step anim-slideUp delay-2">
-          <div class="onboard-step-icon" style="background: #E0F7FA; color: #00B8D4;">
-            <i class='bx bx-sparkles'></i>
-          </div>
-          <div class="onboard-step-text">Gana Eco-Puntos por cada acción sostenible</div>
-        </div>
-        <div class="onboard-step anim-slideUp delay-3">
-          <div class="onboard-step-icon" style="background: #FFF8E1; color: #FFB300;">
-            <i class='bx bx-group'></i>
-          </div>
-          <div class="onboard-step-text">Compite con amigos o únete a una patrulla</div>
-        </div>
-      </div>
+        <a href="aventura.html" class="btn btn-primary" id="btn-start-adventure" style="background: rgba(255,255,255,0.2); backdrop-filter: blur(6px); border: 2px solid rgba(255,255,255,0.4); box-shadow: 0 8px 24px rgba(0,0,0,0.15); position: relative; z-index: 1;">
+          🗺️ Empezar Aventura
+        </a>
+      </section>
 
-      <!-- Action Area -->
-      <div class="mt-4 anim-slideUp delay-4">
-        <button id="btn-scan-start" class="btn btn-primary w-full" style="padding: 20px; font-size: 18px;">
-          <i class='bx bx-qr-scan' style="font-size: 24px;"></i> Escanear QR
-        </button>
-        <p class="tc t-xs c-muted mt-3 fw-6">Sin descargas. Sin registros complicados. Solo escanea y juega.</p>
-      </div>
-    </div>
+      <!-- ─── HOW IT WORKS ─── -->
+      <section style="padding: 0 var(--sp-4); margin-bottom: var(--sp-6);">
+        <h2 class="card-section-title anim-fadeInUp delay-2" style="margin-bottom: var(--sp-3);">
+          <i class='bx bx-info-circle' style="color: var(--primary);"></i> ¿Cómo funciona?
+        </h2>
+        <div class="flex flex-col gap-3">
+          <div class="onboard-step anim-fadeInUp delay-2" id="step-choose">
+            <div class="onboard-step-icon" style="background: var(--yellow-soft); color: var(--adventure-gold);">
+              <i class='bx bx-compass'></i>
+            </div>
+            <div>
+              <div class="onboard-step-text">1. Elige tu aventura</div>
+              <p class="t-xs c-mid mt-1 fw-6">Selecciona una quest y sigue las pistas por el parque</p>
+            </div>
+          </div>
+          <div class="onboard-step anim-fadeInUp delay-3" id="step-explore">
+            <div class="onboard-step-icon" style="background: var(--blue-soft); color: var(--blue);">
+              <i class='bx bx-map-alt'></i>
+            </div>
+            <div>
+              <div class="onboard-step-text">2. Explora y juega</div>
+              <p class="t-xs c-mid mt-1 fw-6">Resuelve acertijos, descubre criaturas y completa misiones</p>
+            </div>
+          </div>
+          <div class="onboard-step anim-fadeInUp delay-4" id="step-rewards">
+            <div class="onboard-step-icon" style="background: var(--purple-soft); color: var(--purple);">
+              <i class='bx bx-gift'></i>
+            </div>
+            <div>
+              <div class="onboard-step-text">3. Gana recompensas</div>
+              <p class="t-xs c-mid mt-1 fw-6">Tus logros en el juego te dan premios reales en el parque</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-    <!-- Scanner Modal -->
+      <!-- ─── CREATURE PREVIEW ─── -->
+      <section style="padding: 0 var(--sp-4); margin-bottom: var(--sp-6);">
+        <div class="flex items-c justify-b mb-3 anim-fadeInUp delay-4">
+          <h2 class="card-section-title">
+            🐾 Criaturas por Descubrir
+          </h2>
+          <a href="criaturas.html" class="t-sm fw-8 c-primary" id="link-all-creatures">Ver todas →</a>
+        </div>
+        <p class="t-sm c-mid fw-6 mb-3 anim-fadeInUp delay-4">¿Las encontrarás todas?</p>
+        <div id="creature-scroll" class="flex gap-3 anim-fadeInUp delay-5" style="overflow-x: auto; padding-bottom: var(--sp-2); scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;">
+          <!-- Creature: Leaf Fox (Discovered) -->
+          <div class="creature-card creature-card--forest" style="min-width: 140px; scroll-snap-align: start;" id="creature-preview-fox">
+            <div class="creature-card__glow"></div>
+            <div class="creature-card__level">Nv. 1</div>
+            <div class="creature-card__avatar anim-creature-float">🦊</div>
+            <div class="creature-card__name">Leaf Fox</div>
+          </div>
+          <!-- Creature: Undiscovered 1 -->
+          <div class="creature-card creature-card--undiscovered" style="min-width: 140px; scroll-snap-align: start;" id="creature-preview-unknown1">
+            <div class="creature-card__glow"></div>
+            <div class="creature-card__avatar">?</div>
+            <div class="creature-card__name">???</div>
+          </div>
+          <!-- Creature: Undiscovered 2 -->
+          <div class="creature-card creature-card--undiscovered" style="min-width: 140px; scroll-snap-align: start;" id="creature-preview-unknown2">
+            <div class="creature-card__glow"></div>
+            <div class="creature-card__avatar">?</div>
+            <div class="creature-card__name">???</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── ACTIVE QUEST PREVIEW ─── -->
+      <section style="padding: 0 var(--sp-4); margin-bottom: var(--sp-6);" id="active-quest-section">
+        <h2 class="card-section-title mb-3 anim-fadeInUp delay-5">
+          <i class='bx bx-compass' style="color: var(--adventure-gold);"></i> Tu Aventura Activa
+        </h2>
+        <div class="quest-card anim-fadeInUp delay-5 anim-quest-glow" id="active-quest-card" style="cursor: pointer;" onclick="location.href='aventura.html'">
+          <div class="quest-card__header">
+            <div class="flex items-c gap-2">
+              <span style="font-size: 24px;" id="active-quest-icon">🌲</span>
+              <span class="quest-card__title" id="active-quest-title">El Misterio del Bosque Perdido</span>
+            </div>
+            <span class="quest-card__chapter-count" id="active-quest-chapters">1/5</span>
+          </div>
+          <div class="quest-card__progress" style="margin-bottom: var(--sp-3);">
+            <div class="quest-card__progress-fill" id="active-quest-progress-fill" style="width: 20%;"></div>
+          </div>
+          <div class="flex items-c justify-b">
+            <div>
+              <p class="t-sm fw-7 c-mid" id="active-quest-hint">
+                <i class='bx bx-bulb' style="color: var(--adventure-gold);"></i>
+                Siguiente: <span id="active-quest-chapter-name">El Acertijo del Guardián</span>
+              </p>
+            </div>
+            <span class="badge-adventure" style="flex-shrink: 0;">
+              <i class='bx bx-right-arrow-alt'></i> Continuar aventura
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── QUICK SCANNER ─── -->
+      <section style="padding: 0 var(--sp-4); margin-bottom: var(--sp-6);" class="anim-fadeInUp delay-6">
+        <div class="card card-padded" id="quick-scanner-section" style="text-align: center; border: 2px dashed rgba(0,191,165,0.25);">
+          <div style="font-size: 36px; margin-bottom: 8px;">📷</div>
+          <h3 class="t-md fw-9 c-dark mb-1">Escáner Rápido</h3>
+          <p class="t-sm c-mid fw-6 mb-4">Escanea directamente para alimentar a tus criaturas</p>
+          <button id="btn-scan-start" class="btn btn-secondary w-full" style="padding: 14px;">
+            <i class='bx bx-qr-scan' style="font-size: 20px;"></i> Abrir Escáner
+          </button>
+        </div>
+      </section>
+
+      <!-- ─── FOOTER TEXT ─── -->
+      <footer class="tc anim-fadeIn delay-6" style="padding: 0 var(--sp-4) var(--sp-6);">
+        <p class="t-xs c-muted fw-6">Sin descargas. Sin registros. Solo explora y juega. 🌿</p>
+      </footer>
+
+    </div><!-- .page -->
+
+    <!-- ─── SCANNER MODAL (Preserved) ─── -->
     <div id="scanner-modal" class="modal-overlay hidden">
       <div class="modal-sheet tc" style="padding-bottom: 40px; position:relative;">
         <button class="modal-close-btn" id="btn-close-scanner">×</button>
@@ -79,7 +187,7 @@
           </div>
         </div>
 
-        <div id="scanner-loading" class="hidden py-8">
+        <div id="scanner-loading" class="hidden py-3">
           <div class="spinner"></div>
           <p class="mt-4">Verificando código...</p>
         </div>
@@ -90,53 +198,87 @@
 
         <div id="scanner-actions" class="flex flex-col gap-3">
           <button id="btn-scan-success" class="btn btn-primary w-full">Simular Éxito</button>
-          <button id="btn-scan-error" class="btn btn-outline w-full">Simular Error</button>
+          <button id="btn-scan-error" class="btn btn-ghost w-full">Simular Error</button>
         </div>
       </div>
     </div>
 
-    <!-- Success Modal -->
+    <!-- ─── SUCCESS MODAL (Preserved) ─── -->
     <div id="success-modal" class="modal-overlay hidden">
       <div class="modal-sheet tc">
         <button class="modal-close-btn" id="btn-close-success">×</button>
         <div style="font-size: 64px; color: var(--primary);"><i class='bx bxs-party'></i></div>
         <h2 class="t-2xl fw-9 c-dark mt-2">¡Bien hecho!</h2>
-        <p class="c-mid mt-2 mb-6">Has ganado 50 Eco-Puntos.</p>
+        <p class="c-mid mt-2 mb-6">Has ganado 50 Eco-Puntos. ¡Tu criatura ha sido alimentada!</p>
         <button id="btn-awesome" class="btn btn-primary w-full">¡Genial!</button>
       </div>
     </div>
 
-    <!-- Bottom Nav -->
-    <nav class="bottom-nav anim-slideUp delay-5">
-      <div class="nav-item active" id="nav-index" onclick="location.href='index.html'">
-        <i class='bx bx-qr-scan nav-icon'></i>
-        <span class="nav-label">Escanear</span>
-      </div>
-      <div class="nav-item" id="nav-dashboard" onclick="location.href='dashboard.html'">
-        <i class='bx bx-trophy nav-icon'></i>
-        <span class="nav-label">Ranking</span>
-      </div>
-      <div class="nav-item" id="nav-marketplace" onclick="location.href='marketplace.html'">
-        <i class='bx bx-gift nav-icon'></i>
-        <span class="nav-label">Premios</span>
-      </div>
-      <div class="nav-item" id="nav-map" onclick="location.href='mapa.html'">
-        <i class='bx bx-map-alt nav-icon'></i>
-        <span class="nav-label">Mapa</span>
-      </div>
-      <div class="nav-item" id="nav-profile" onclick="location.href='profile.html'">
-        <i class='bx bx-user nav-icon'></i>
-        <span class="nav-label">Perfil</span>
-      </div>
+    <!-- ─── BOTTOM NAV ─── -->
+    <nav class="bottom-nav">
+      <a href="index.html" class="nav-item" id="nav-home">
+        <i class='bx bx-home-alt'></i>
+        <span>Inicio</span>
+      </a>
+      <a href="dashboard.html" class="nav-item" id="nav-ranking">
+        <i class='bx bx-trophy'></i>
+        <span>Ranking</span>
+      </a>
+      <a href="aventura.html" class="nav-item nav-item--main" id="nav-aventura">
+        <i class='bx bx-compass'></i>
+        <span>Aventura</span>
+      </a>
+      <a href="criaturas.html" class="nav-item" id="nav-criaturas">
+        <i class='bx bxs-leaf'></i>
+        <span>Criaturas</span>
+      </a>
+      <a href="profile.html" class="nav-item" id="nav-profile">
+        <i class='bx bx-user'></i>
+        <span>Perfil</span>
+      </a>
     </nav>
-  </div> <!-- app-container close -->
 
-  <script src="js/app.js"></script>
+  </div><!-- .app-container -->
+
   <script src="js/confetti.js"></script>
+  <script src="js/app.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      EcoApp.initNav('index');
-      
+      EcoApp.initNav('home');
+
+      // ── Populate Active Quest Preview ──
+      const quest = EcoApp.getActiveAdventure();
+      if (quest) {
+        const progress = EcoApp.getQuestProgress(quest.id);
+        const currentChapter = EcoApp.getCurrentChapter(quest.id);
+
+        document.getElementById('active-quest-icon').textContent = quest.icon;
+        document.getElementById('active-quest-title').textContent = quest.title;
+        document.getElementById('active-quest-chapters').textContent = `${progress.completed}/${progress.total}`;
+        document.getElementById('active-quest-progress-fill').style.width = `${progress.percent}%`;
+
+        if (currentChapter) {
+          document.getElementById('active-quest-chapter-name').textContent = currentChapter.title;
+        }
+      }
+
+      // ── Populate Creature Preview ──
+      const discovered = EcoApp.getDiscoveredCreatures();
+      const allCreatures = EcoApp.getAllCreatures();
+      if (discovered.length > 0) {
+        const first = discovered[0];
+        const stage = EcoApp.getCreatureStage(first.id);
+        const def = allCreatures.find(c => c.id === first.id);
+        if (stage && def) {
+          const foxCard = document.getElementById('creature-preview-fox');
+          foxCard.querySelector('.creature-card__avatar').textContent = stage.emoji;
+          foxCard.querySelector('.creature-card__name').textContent = stage.name;
+          const level = EcoApp.getCreatureLevel(first.id);
+          foxCard.querySelector('.creature-card__level').textContent = `Nv. ${level + 1}`;
+        }
+      }
+
+      // ── Scanner Modal Logic (Preserved) ──
       const scanStart = document.getElementById('btn-scan-start');
       const scannerModal = document.getElementById('scanner-modal');
       const scanSuccess = document.getElementById('btn-scan-success');
@@ -146,7 +288,7 @@
 
       const closeScanner = document.getElementById('btn-close-scanner');
       const closeSuccess = document.getElementById('btn-close-success');
-      
+
       const sView = document.getElementById('scanner-view');
       const sDesc = document.getElementById('scanner-desc');
       const sActions = document.getElementById('scanner-actions');
@@ -160,6 +302,14 @@
         sLoading.classList.add('hidden');
         sTitle.textContent = 'Escanear Contenedor';
         sDesc.style.color = 'var(--mid)';
+        sDesc.textContent = 'Busca los códigos QR en las bandejas o contenedores de reciclaje.';
+        sActions.innerHTML = `
+          <button id="btn-scan-success" class="btn btn-primary w-full">Simular Éxito</button>
+          <button id="btn-scan-error" class="btn btn-ghost w-full">Simular Error</button>
+        `;
+        // Re-bind
+        document.getElementById('btn-scan-success').addEventListener('click', handleScanSuccess);
+        document.getElementById('btn-scan-error').addEventListener('click', handleScanError);
       }
 
       scanStart.addEventListener('click', () => {
@@ -170,26 +320,24 @@
       closeScanner.addEventListener('click', () => scannerModal.classList.add('hidden'));
       closeSuccess.addEventListener('click', () => successModal.classList.add('hidden'));
 
-      // Error Simulation
-      scanError.addEventListener('click', () => {
+      function handleScanError() {
         sTitle.textContent = 'Error de Cámara';
         sView.classList.add('hidden');
         sDesc.textContent = 'No pudimos acceder a tu cámara. Por favor verifica los permisos del navegador e inténtalo de nuevo.';
         sDesc.style.color = 'var(--red)';
-        sActions.innerHTML = `<button class="btn btn-primary w-full" onclick="resetScannerUI()">Reintentar</button>`;
-      });
+        sActions.innerHTML = `<button class="btn btn-primary w-full" id="btn-retry-scan">Reintentar</button>`;
+        document.getElementById('btn-retry-scan').addEventListener('click', resetScannerUI);
+      }
 
-      // AI Simulation Sequence
-      scanSuccess.addEventListener('click', () => {
+      function handleScanSuccess() {
         sActions.classList.add('hidden');
         sTitle.textContent = 'Analizando con IA...';
         sDesc.textContent = 'Identificando tipo de material...';
         sDesc.style.color = 'var(--primary)';
-        
+
         const bbox = document.getElementById('ai-bbox');
         bbox.classList.remove('hidden');
-        
-        // Simular movimiento del bounding box
+
         setTimeout(() => {
           bbox.style.width = '40%'; bbox.style.height = '70%'; bbox.style.left = '30%'; bbox.style.top = '15%';
         }, 500);
@@ -197,18 +345,20 @@
         setTimeout(() => {
           sTitle.textContent = '¡Material detectado!';
           sDesc.textContent = 'Plástico PET listo para reciclar.';
-          
+
           setTimeout(() => {
             EcoApp.addPoints(50);
             scannerModal.classList.add('hidden');
             successModal.classList.remove('hidden');
             Confetti.fire();
-            // Reset state
             bbox.classList.add('hidden');
             bbox.style = "position: absolute; border: 2px solid var(--primary); background: rgba(0,230,118, 0.1); top: 20%; left: 20%; width: 60%; height: 60%; transition: all 0.3s;";
           }, 1500);
         }, 1500);
-      });
+      }
+
+      scanError.addEventListener('click', handleScanError);
+      scanSuccess.addEventListener('click', handleScanSuccess);
 
       btnAwesome.addEventListener('click', () => {
         successModal.classList.add('hidden');

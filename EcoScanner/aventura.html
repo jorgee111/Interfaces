@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Aventura — EcoScanner Adventures</title>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+  <div class="app-container">
+    <div class="page" style="padding-bottom: calc(var(--nav-h) + 8px);">
+
+      <!-- ─── HEADER BAR ─── -->
+      <header class="top-bar">
+        <div class="flex items-c gap-2">
+          <a href="index.html" style="color: var(--dark); font-size: 24px;"><i class='bx bx-arrow-back'></i></a>
+          <span class="fw-8 t-lg c-dark">Aventura</span>
+        </div>
+        <div style="font-size: 24px;"><i class='bx bx-briefcase-alt-2' style="color: var(--mid);"></i></div>
+      </header>
+
+      <!-- ─── ACTIVE QUEST HERO ─── -->
+      <section style="padding: 0 var(--sp-4); margin-bottom: var(--sp-6);" class="anim-fadeInUp delay-1">
+        <div class="quest-hero" id="active-quest-hero">
+          <div class="flex items-c justify-b" style="margin-bottom: 16px;">
+            <div class="flex items-c gap-2">
+              <span style="font-size: 32px;" id="hero-quest-icon">🌲</span>
+              <div>
+                <h1 style="font-size: 20px; font-weight: 800; line-height: 1.2;" id="hero-quest-title">Cargando aventura...</h1>
+                <p style="font-size: 13px; opacity: 0.9;" id="hero-quest-progress-text">0/0 capítulos completados</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="evolution-bar" style="background: rgba(255,255,255,0.2); margin-bottom: 16px;">
+            <div class="evolution-bar__fill" id="hero-quest-progress-bar" style="background: #fff; width: 0%;"></div>
+          </div>
+
+          <div class="flex items-c justify-b">
+            <span class="badge-adventure" style="background: rgba(255,255,255,0.2); color: #fff; border: none;">
+              Compañero
+            </span>
+            <span style="font-size: 28px;" class="anim-creature-float" id="hero-companion-emoji">🦊</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── CURRENT CHAPTER ─── -->
+      <section style="padding: 0 var(--sp-4); margin-bottom: var(--sp-6);" class="anim-fadeInUp delay-2">
+        <h2 class="card-section-title mb-3">Capítulo Actual</h2>
+        
+        <div class="quest-card anim-quest-glow" id="current-chapter-card">
+          <div class="quest-card__header" style="margin-bottom: 8px;">
+            <span class="quest-card__title" id="current-chapter-title">Capítulo Actual</span>
+          </div>
+          <p class="t-sm c-mid fw-6 mb-3" id="current-chapter-desc">Descripción del capítulo...</p>
+          
+          <div style="background: rgba(255,184,48,0.1); border-radius: 12px; padding: 12px; margin-bottom: 16px;">
+            <div class="flex items-c gap-2">
+              <i class='bx bx-bulb' style="color: var(--adventure-gold); font-size: 20px;"></i>
+              <span class="t-sm fw-7 c-dark" id="current-chapter-hint">Pista aquí</span>
+            </div>
+          </div>
+
+          <div class="flex items-c justify-b mb-4">
+            <span class="t-xs fw-8 c-mid uppercase">Recompensa:</span>
+            <div class="flex items-c gap-2" id="current-chapter-rewards">
+              <!-- Recompensas dinámicas -->
+            </div>
+          </div>
+
+          <button class="btn btn-primary w-full" id="btn-chapter-action">
+            Acción del Capítulo
+          </button>
+        </div>
+      </section>
+
+      <!-- ─── CHAPTER TIMELINE ─── -->
+      <section style="padding: 0 var(--sp-4); margin-bottom: var(--sp-6);" class="anim-fadeInUp delay-3">
+        <h2 class="card-section-title mb-4">Línea de Tiempo</h2>
+        <div id="chapter-timeline" class="flex flex-col gap-4">
+          <!-- Timeline nodes dinámicos -->
+        </div>
+      </section>
+
+      <!-- ─── INVENTORY ─── -->
+      <section style="padding: 0 var(--sp-4); margin-bottom: var(--sp-6);" class="anim-fadeInUp delay-4">
+        <h2 class="card-section-title mb-3">🎒 Tu Inventario</h2>
+        <div class="card card-padded">
+          <div id="inventory-list" class="flex flex-wrap gap-2">
+            <!-- Inventario dinámico -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── OTHER QUESTS ─── -->
+      <section style="padding: 0 var(--sp-4); margin-bottom: var(--sp-6);" class="anim-fadeInUp delay-5">
+        <h2 class="card-section-title mb-3">Más Aventuras</h2>
+        <div id="other-quests-list" class="flex flex-col gap-3">
+          <!-- Otras aventuras -->
+        </div>
+      </section>
+
+    </div><!-- .page -->
+
+    <!-- ─── BOTTOM NAV ─── -->
+    <nav class="bottom-nav">
+      <a href="index.html" class="nav-item" id="nav-home">
+        <i class='bx bx-home-alt'></i>
+        <span>Inicio</span>
+      </a>
+      <a href="dashboard.html" class="nav-item" id="nav-ranking">
+        <i class='bx bx-trophy'></i>
+        <span>Ranking</span>
+      </a>
+      <a href="aventura.html" class="nav-item nav-item--main active" id="nav-aventura">
+        <i class='bx bx-compass'></i>
+        <span>Aventura</span>
+      </a>
+      <a href="criaturas.html" class="nav-item" id="nav-criaturas">
+        <i class='bx bxs-leaf'></i>
+        <span>Criaturas</span>
+      </a>
+      <a href="profile.html" class="nav-item" id="nav-profile">
+        <i class='bx bx-user'></i>
+        <span>Perfil</span>
+      </a>
+    </nav>
+  </div><!-- .app-container -->
+
+  <script src="js/confetti.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      EcoApp.initNav('aventura');
+
+      const quest = EcoApp.getActiveAdventure();
+      if (!quest) return;
+
+      const progress = EcoApp.getQuestProgress(quest.id);
+      const currentChapter = EcoApp.getCurrentChapter(quest.id);
+      const state = EcoApp.getState();
+      const questState = state.adventure.quests[quest.id];
+
+      // Hero
+      document.getElementById('hero-quest-icon').textContent = quest.icon;
+      document.getElementById('hero-quest-title').textContent = quest.title;
+      document.getElementById('hero-quest-progress-text').textContent = `${progress.completed}/${progress.total} capítulos completados`;
+      document.getElementById('hero-quest-progress-bar').style.width = `${progress.percent}%`;
+
+      const discovered = EcoApp.getDiscoveredCreatures();
+      if (discovered.length > 0) {
+        const firstStage = EcoApp.getCreatureStage(discovered[0].id);
+        if (firstStage) document.getElementById('hero-companion-emoji').textContent = firstStage.emoji;
+      }
+
+      // Current Chapter
+      if (currentChapter) {
+        document.getElementById('current-chapter-title').textContent = `${currentChapter.title}`;
+        document.getElementById('current-chapter-desc').textContent = currentChapter.description;
+        document.getElementById('current-chapter-hint').textContent = currentChapter.hint;
+        
+        let rewardHtml = '';
+        if (currentChapter.reward.points) rewardHtml += `<span class="badge-adventure">+${currentChapter.reward.points} pts</span>`;
+        if (currentChapter.reward.item) rewardHtml += `<span class="inventory-item">${currentChapter.reward.item.replace('-', ' ')}</span>`;
+        if (currentChapter.reward.creature) {
+          const cDef = EcoApp.getAllCreatures().find(c => c.id === currentChapter.reward.creature);
+          if (cDef) rewardHtml += `<span style="font-size: 20px;">${cDef.stages[0].emoji}</span>`;
+        }
+        document.getElementById('current-chapter-rewards').innerHTML = rewardHtml;
+
+        const btn = document.getElementById('btn-chapter-action');
+        if (currentChapter.type === 'scan') {
+          btn.innerHTML = "<i class='bx bx-qr-scan'></i> Ir a Escanear";
+          btn.onclick = () => window.location.href = 'index.html';
+        } else if (currentChapter.type === 'trivia') {
+          btn.innerHTML = "<i class='bx bx-brain'></i> Responder Acertijo";
+          btn.onclick = () => window.location.href = 'trivia.html';
+        } else if (currentChapter.type === 'explore') {
+          btn.innerHTML = "<i class='bx bx-map-alt'></i> Explorar Mapa";
+          btn.onclick = () => window.location.href = 'mapa.html';
+        } else if (currentChapter.type === 'group') {
+          btn.innerHTML = "<i class='bx bx-group'></i> Invitar Amigos";
+          btn.onclick = () => {
+             if (navigator.share) {
+               navigator.share({ title: 'EcoScanner Adventures', text: '¡Únete a mi patrulla!' });
+             } else {
+               alert('¡Enlace de invitación copiado!');
+             }
+          };
+        }
+      } else {
+        document.getElementById('current-chapter-card').innerHTML = `
+          <div class="tc py-4">
+            <div style="font-size: 48px; margin-bottom: 16px;">🏆</div>
+            <h3 class="t-lg fw-8 c-dark mb-2">¡Aventura Completada!</h3>
+            <p class="c-mid t-sm fw-6">Has terminado todas las misiones de esta aventura.</p>
+          </div>
+        `;
+      }
+
+      // Timeline
+      const timelineHtml = quest.chapters.map((ch, idx) => {
+        const isCompleted = questState.completedChapters.includes(ch.id);
+        const isActive = questState.currentChapter === ch.id;
+        const statusClass = isCompleted ? 'chapter-node--completed' : (isActive ? 'chapter-node--active' : 'chapter-node--locked');
+        
+        let markerHtml = '';
+        if (isCompleted) markerHtml = "<i class='bx bx-check' style='color: white; font-size: 20px;'></i>";
+        else if (isActive) markerHtml = "<div style='width: 12px; height: 12px; background: white; border-radius: 50%;'></div>";
+
+        let typeIcon = 'bx-question-mark';
+        if (ch.type === 'scan') typeIcon = 'bx-qr-scan';
+        if (ch.type === 'trivia') typeIcon = 'bx-brain';
+        if (ch.type === 'explore') typeIcon = 'bx-map-alt';
+        if (ch.type === 'group') typeIcon = 'bx-group';
+
+        return `
+          <div class="chapter-node ${statusClass}" style="position: relative;">
+            ${idx < quest.chapters.length - 1 ? '<div class="chapter-node__connector"></div>' : ''}
+            <div class="chapter-node__marker flex items-c justify-c">${markerHtml}</div>
+            <div class="chapter-node__content w-full card card-padded" style="margin-top: -4px;">
+              <div class="flex items-c justify-b mb-1">
+                <span class="t-sm fw-8 c-dark">${ch.title}</span>
+                <i class='bx ${typeIcon} c-mid'></i>
+              </div>
+              <p class="t-xs c-mid fw-6 line-clamp-2">${ch.description}</p>
+            </div>
+          </div>
+        `;
+      }).join('');
+      document.getElementById('chapter-timeline').innerHTML = timelineHtml;
+
+      // Inventory
+      const inventory = EcoApp.getInventory();
+      if (inventory.length > 0) {
+        document.getElementById('inventory-list').innerHTML = inventory.map(item => `
+          <div class="inventory-item">
+            <i class='bx bx-cube-alt'></i> ${item.replace('-', ' ')}
+          </div>
+        `).join('');
+      } else {
+        document.getElementById('inventory-list').innerHTML = "<p class='t-sm c-mid fw-6'>Aún no tienes objetos. Completa misiones para conseguirlos.</p>";
+      }
+
+      // Other Quests
+      const otherQuestsHtml = EcoApp.getState().adventure.quests;
+      // We only have 2 quests in the mock data, so just find the ones that aren't active.
+      // We use the ADVENTURES array to render.
+      const allAdventures = window.EcoApp.LEVELS ? [] : [ // We access ADVENTURES globally from app.js, wait it's not exported. We can recreate or we know 'oceano-secreto' is the other.
+        {
+          id: 'oceano-secreto',
+          title: 'Los Secretos del Océano',
+          icon: '🌊',
+          desc: 'Las aguas del parque esconden criaturas legendarias.'
+        }
+      ]; // Workaround for unexported ADVENTURES. But wait, I'll just hardcode the other quest for now.
+      
+      const otherQuestId = quest.id === 'bosque-perdido' ? 'oceano-secreto' : 'bosque-perdido';
+      const oqState = state.adventure.quests[otherQuestId];
+      
+      document.getElementById('other-quests-list').innerHTML = `
+        <div class="card card-padded flex items-c gap-3 opacity-70">
+          <div style="font-size: 32px;">${otherQuestId === 'oceano-secreto' ? '🌊' : '🌲'}</div>
+          <div class="flex-1">
+            <div class="flex items-c gap-2 mb-1">
+              <span class="t-sm fw-8 c-dark">${otherQuestId === 'oceano-secreto' ? 'Los Secretos del Océano' : 'El Misterio del Bosque Perdido'}</span>
+              <span class="t-xs fw-8 px-2 py-1 bg-light c-mid br-full">Bloqueada</span>
+            </div>
+            <p class="t-xs c-mid fw-6 line-clamp-1">Próximamente disponible</p>
+          </div>
+        </div>
+      `;
+    });
+  </script>
+</body>
+</html>

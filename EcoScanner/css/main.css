@@ -26,6 +26,19 @@
   --blue-soft:    #EBF4FF;
   --red:          #FF4757;
   --green2:       #2ECC71;
+
+  /* Adventure Theme */
+  --adventure-gold: #FFB830;
+  --adventure-amber: #F59E0B;
+  --quest-purple: #7C5CFC;
+  --mystery-indigo: #4F46E5;
+  --creature-forest: #22C55E;
+  --creature-ocean: #06B6D4;
+  --creature-flame: #F97316;
+  --creature-crystal: #A855F7;
+  --chapter-locked: #CBD5E1;
+  --chapter-active: var(--adventure-gold);
+  --chapter-completed: var(--primary);
 }
 
 body.dark-mode {
@@ -42,6 +55,19 @@ body.dark-mode {
   --purple-soft: #221c3b;
   --yellow-soft: #302611;
   --blue-soft: #122138;
+
+  /* Adventure Theme – Dark Mode */
+  --adventure-gold: #FFCA5C;
+  --adventure-amber: #FBB83B;
+  --quest-purple: #9B82FC;
+  --mystery-indigo: #7370E8;
+  --creature-forest: #4ADE80;
+  --creature-ocean: #22D3EE;
+  --creature-flame: #FB923C;
+  --creature-crystal: #C084FC;
+  --chapter-locked: #475569;
+  --chapter-active: var(--adventure-gold);
+  --chapter-completed: var(--primary);
 }
 
 :root {

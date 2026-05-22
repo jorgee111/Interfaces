@@ -3,172 +3,183 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>EcoScanner - Ranking</title>
+  <title>Ranking y Novedades — EcoScanner Adventures</title>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/main.css">
-  <link rel="stylesheet" href="css/animations.css">
   <link rel="stylesheet" href="css/components.css">
-  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+  <link rel="stylesheet" href="css/animations.css">
 </head>
 <body>
   <div class="app-container">
-    <div class="page">
+    <div class="page" style="padding-bottom: calc(var(--nav-h) + 8px);">
       
       <!-- Top Bar -->
-    <div class="top-bar anim-fadeInDown">
-      <div class="top-bar-title"></div>
-      <div class="top-bar-pts">
-        <i class='bx bxs-star' style="color: #FFB300;"></i> <span id="user-pts-top">0</span>
+      <div class="top-bar anim-fadeInDown">
+        <div class="top-bar-title">Novedades</div>
+        <div class="top-bar-pts">
+          <i class='bx bxs-star' style="color: #FFB300;"></i> <span id="user-pts-top">0</span>
+        </div>
       </div>
-    </div>
 
-    <div class="content pt-0">
-      
-      <!-- Hero Card (User Level) -->
-      <div class="hero-card anim-scaleIn delay-1">
-        <div class="flex items-c justify-b mb-4">
-          <div class="flex items-c gap-3">
-            <div style="background: rgba(255,255,255,0.2); width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; border-radius: 16px; font-size: 28px; color: #FFD700; box-shadow: var(--shadow-sm);">
-              <i class='bx bxs-star'></i>
-            </div>
-            <div>
-              <div class="t-xl fw-9" id="user-name">Usuario</div>
-              <div class="t-sm fw-6 opacity-9 flex items-c gap-1"><i class='bx bx-leaf'></i> <span id="user-level-name">Nivel</span></div>
-            </div>
-          </div>
-          <div class="tc">
-            <div class="fw-9" id="user-rank" style="font-size: 44px; line-height: 1; margin-bottom: 2px;">#--</div>
-            <div class="t-xs fw-7 opacity-9">Ranking</div>
-          </div>
-        </div>
-
-        <div class="mt-5">
-          <div class="flex justify-b t-xs fw-8 mb-2">
-            <span>Progreso a próxima recompensa</span>
-            <span id="level-progress-text">--/-- pts</span>
-          </div>
-          <div class="prog-bar-wrap" style="height: 6px;">
-            <div class="prog-bar-fill" id="level-progress-bar" style="width: 0%; background: #FFD700;"></div>
-          </div>
-        </div>
+      <div class="content pt-0">
         
-        <div class="mt-5 flex items-c gap-2 t-lg fw-9">
-          <i class='bx bx-award' style="font-size: 24px;"></i> <span id="user-pts-card">0</span> Eco-Puntos
-        </div>
-      </div>
-
-      <!-- Ranking Section -->
-      <div class="card p-4 mt-4 anim-slideUp delay-2">
-        <div class="flex items-c justify-b mb-4">
-          <h2 class="card-section-title">
-            <div style="background: var(--primary-light); padding: 8px; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; color: var(--primary-dark); font-size: 18px;">
-              <i class='bx bx-trophy'></i>
+        <!-- Hero Card (Active Quest) -->
+        <div class="quest-hero anim-scaleIn delay-1" id="dash-quest-hero" style="cursor: pointer;" onclick="location.href='aventura.html'">
+          <div class="flex items-c justify-b mb-3">
+            <div class="flex items-c gap-2">
+              <span style="font-size: 28px;" id="dash-quest-icon">🌲</span>
+              <div>
+                <h2 class="t-md fw-9" style="line-height: 1.2;" id="dash-quest-title">Cargando...</h2>
+                <div class="t-xs fw-6 opacity-9 mt-1" id="dash-quest-progress-text">0/0 capítulos</div>
+              </div>
             </div>
-            Tabla de Clasificación
-          </h2>
-          <div class="flex items-c gap-1 text-xs fw-7 c-primary">
-            <i class='bx bx-trending-up'></i> En vivo
+            <span style="font-size: 32px;" class="anim-creature-float" id="dash-companion-emoji">🦊</span>
+          </div>
+
+          <div class="evolution-bar" style="background: rgba(255,255,255,0.2); margin-bottom: 16px;">
+            <div class="evolution-bar__fill" id="dash-quest-progress-bar" style="background: #fff; width: 0%;"></div>
+          </div>
+          
+          <div class="flex items-c justify-b mt-2">
+            <div class="t-sm fw-8">
+              <span id="user-pts-card">0</span> pts • <span id="user-level-name">Nivel</span>
+            </div>
+            <span class="badge-adventure" style="background: rgba(255,255,255,0.2); color: #fff; border: none;">
+              Continuar Aventura <i class='bx bx-right-arrow-alt'></i>
+            </span>
           </div>
         </div>
 
-        <!-- Tabs -->
-        <div class="tab-bar mb-4">
-          <div class="tab-btn active" id="tab-individual">Individual</div>
-          <div class="tab-btn" id="tab-patrols">Patrullas</div>
+        <!-- Ranking Section -->
+        <div class="card p-4 mt-4 anim-slideUp delay-2">
+          <div class="flex items-c justify-b mb-4">
+            <h2 class="card-section-title">
+              <div style="background: rgba(255,184,48,0.15); padding: 8px; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; color: var(--adventure-gold); font-size: 18px;">
+                <i class='bx bx-trophy'></i>
+              </div>
+              Ranking de Aventureros
+            </h2>
+            <div class="flex items-c gap-1 text-xs fw-7 c-primary">
+              <i class='bx bx-trending-up'></i> En vivo
+            </div>
+          </div>
+
+          <!-- Tabs -->
+          <div class="tab-bar mb-4">
+            <div class="tab-btn active" id="tab-individual">Individual</div>
+            <div class="tab-btn" id="tab-patrols">Patrullas</div>
+          </div>
+
+          <!-- Patrol Header (Hidden by default) -->
+          <div id="patrol-header" class="hidden mb-4 p-3 rounded-xl anim-fadeInDown" style="background: rgba(124, 92, 252, 0.1); border: 1px solid rgba(124, 92, 252, 0.2);">
+            <div class="flex items-c justify-b mb-2">
+              <div class="t-sm fw-8 c-dark"><i class='bx bx-target-lock' style="color: var(--quest-purple);"></i> Meta Diaria de Patrulla</div>
+              <div class="t-xs fw-7" style="color: var(--quest-purple);">24/50</div>
+            </div>
+            <div class="prog-bar-wrap mb-3" style="height: 8px; background: rgba(124, 92, 252, 0.2);">
+              <div class="prog-bar-fill" style="width: 48%; background: var(--quest-purple);"></div>
+            </div>
+            <button id="btn-invite" class="btn btn-secondary w-full" style="padding: 10px; font-size: 13px;">
+              <i class='bx bx-user-plus'></i> Invitar Amigos a la Patrulla
+            </button>
+          </div>
+
+          <!-- Leaderboard List -->
+          <div class="flex flex-col gap-2" id="leaderboard-container">
+            <!-- Populated by JS -->
+          </div>
         </div>
 
-        <!-- Patrol Header (Hidden by default) -->
-        <div id="patrol-header" class="hidden mb-4 p-3 rounded-xl anim-fadeInDown" style="background: var(--primary-light); border: 1px solid rgba(0,201,167,0.2);">
-          <div class="flex items-c justify-b mb-2">
-            <div class="t-sm fw-8 c-dark"><i class='bx bx-target-lock' style="color: var(--primary);"></i> Meta Diaria: 50 Acciones</div>
-            <div class="t-xs fw-7 c-primary">24/50</div>
+        <!-- Trivia Banner -->
+        <div class="mt-4 anim-fadeInDown delay-5">
+          <div class="card p-4" style="background: linear-gradient(135deg, var(--quest-purple), var(--mystery-indigo)); color: white; display: flex; align-items: center; justify-content: space-between; cursor: pointer; box-shadow: 0 8px 24px rgba(124, 92, 252, 0.3);" onclick="location.href='trivia.html'">
+            <div>
+              <h3 class="t-md fw-9 mb-1"><i class='bx bx-joystick'></i> Anti-Cola Games</h3>
+              <p class="t-xs fw-6 opacity-8">Juega mientras esperas en la cola.</p>
+            </div>
+            <div style="background: rgba(255,255,255,0.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+              <i class='bx bx-chevron-right'></i>
+            </div>
           </div>
-          <div class="prog-bar-wrap mb-3" style="height: 8px; background: rgba(0,201,167,0.2);">
-            <div class="prog-bar-fill" style="width: 48%; background: var(--primary-gradient);"></div>
-          </div>
-          <button id="btn-invite" class="btn btn-secondary w-full" style="padding: 10px; font-size: 13px;">
-            <i class='bx bx-user-plus'></i> Invitar Amigos a la Patrulla
-          </button>
         </div>
 
-        <!-- Leaderboard List -->
-        <div class="flex flex-col gap-2" id="leaderboard-container">
+        <!-- Tus Criaturas Preview -->
+        <div class="mt-5 mb-2 flex items-c justify-b px-2 anim-slideUp delay-3">
+          <h3 class="t-md fw-8 c-dark">Tus Criaturas</h3>
+          <a href="criaturas.html" class="t-sm fw-7 c-primary">Ver colección <i class='bx bx-right-arrow-alt'></i></a>
+        </div>
+        <div class="flex gap-3 anim-slideUp delay-4 px-2" id="dash-creatures-preview" style="overflow-x: auto; padding-bottom: 8px;">
           <!-- Populated by JS -->
         </div>
-      </div>
 
-      <!-- Trivia Banner -->
-      <div class="mt-4 anim-fadeInDown delay-5">
-        <div class="card p-4" style="background: linear-gradient(135deg, var(--purple), #5b35d5); color: white; display: flex; align-items: center; justify-content: space-between; cursor: pointer; box-shadow: var(--shadow-purple);" onclick="location.href='trivia.html'">
-          <div>
-            <h3 class="t-md fw-9 mb-1"><i class='bx bx-joystick'></i> Minijuego Anti-Filas</h3>
-            <p class="t-xs fw-6 opacity-8">¿Aburrido en la cola? Juega y gana +5 pts.</p>
-          </div>
-          <div style="background: rgba(255,255,255,0.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px;">
-            <i class='bx bx-chevron-right'></i>
-          </div>
+        <!-- Misiones Rápidas -->
+        <div class="mt-4 mb-2 flex items-c justify-b px-2 anim-slideUp delay-4">
+          <h3 class="t-md fw-8 c-dark">Misiones del Día</h3>
+          <a href="mision-diaria.html" class="t-sm fw-7 c-primary">Ver todas</a>
         </div>
-      </div>
+        <div class="flex flex-col gap-3 anim-slideUp delay-5" id="missions-container">
+          <!-- Populated by JS -->
+        </div>
 
-      <!-- Misiones Rápidas -->
-      <div class="mt-4 mb-2 flex items-c justify-b px-2 anim-slideUp delay-3">
-        <h3 class="t-md fw-8 c-dark">Misiones del Día</h3>
-        <a href="mision-diaria.html" class="t-sm fw-7 c-primary">Ver todas</a>
       </div>
-      <div class="flex flex-col gap-3 anim-slideUp delay-4" id="missions-container">
-        <!-- Populated by JS (only first 2) -->
-      </div>
+    </div>
 
-    </div>
-  </div>
-
-  <!-- Bottom Nav -->
-  <nav class="bottom-nav">
-    <div class="nav-item" id="nav-index" onclick="location.href='index.html'">
-      <i class='bx bx-qr-scan nav-icon'></i>
-      <span class="nav-label">Escanear</span>
-    </div>
-    <div class="nav-item active" id="nav-dashboard" onclick="location.href='dashboard.html'">
-      <i class='bx bx-trophy nav-icon'></i>
-      <span class="nav-label">Ranking</span>
-    </div>
-    <div class="nav-item" id="nav-marketplace" onclick="location.href='marketplace.html'">
-      <i class='bx bx-gift nav-icon'></i>
-      <span class="nav-label">Premios</span>
-    </div>
-    <div class="nav-item" id="nav-map" onclick="location.href='mapa.html'">
-      <i class='bx bx-map-alt nav-icon'></i>
-      <span class="nav-label">Mapa</span>
-    </div>
-    <div class="nav-item" id="nav-profile" onclick="location.href='profile.html'">
-      <i class='bx bx-user nav-icon'></i>
-      <span class="nav-label">Perfil</span>
-    </div>
-  </nav>
+    <!-- Bottom Nav -->
+    <nav class="bottom-nav">
+      <a href="index.html" class="nav-item" id="nav-home">
+        <i class='bx bx-home-alt'></i>
+        <span>Inicio</span>
+      </a>
+      <a href="dashboard.html" class="nav-item active" id="nav-ranking">
+        <i class='bx bx-trophy'></i>
+        <span>Ranking</span>
+      </a>
+      <a href="aventura.html" class="nav-item nav-item--main" id="nav-aventura">
+        <i class='bx bx-compass'></i>
+        <span>Aventura</span>
+      </a>
+      <a href="criaturas.html" class="nav-item" id="nav-criaturas">
+        <i class='bx bxs-leaf'></i>
+        <span>Criaturas</span>
+      </a>
+      <a href="profile.html" class="nav-item" id="nav-profile">
+        <i class='bx bx-user'></i>
+        <span>Perfil</span>
+      </a>
+    </nav>
   </div> <!-- app-container -->
 
   <script src="js/app.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      EcoApp.initNav('dashboard');
+      EcoApp.initNav('ranking');
       const state = EcoApp.get();
       const level = EcoApp.getLevelData();
-      const nextLvl = EcoApp.getNextLevelData();
       
-      // Update UI
+      // Update UI Header
       document.getElementById('user-pts-top').textContent = state.points;
       document.getElementById('user-pts-card').textContent = state.points;
-      document.getElementById('user-name').textContent = state.user.name;
       document.getElementById('user-level-name').textContent = level.name;
-      document.getElementById('user-rank').textContent = '#' + state.rank;
       
-      if (nextLvl) {
-        document.getElementById('level-progress-text').textContent = `${state.points}/${nextLvl.min} pts`;
-        setTimeout(() => {
-          document.getElementById('level-progress-bar').style.width = EcoApp.getProgress() + '%';
-        }, 300);
-      } else {
-        document.getElementById('level-progress-text').textContent = 'Nivel Máximo';
-        document.getElementById('level-progress-bar').style.width = '100%';
+      // Hero Quest
+      const quest = EcoApp.getActiveAdventure();
+      if (quest) {
+        const progress = EcoApp.getQuestProgress(quest.id);
+        document.getElementById('dash-quest-icon').textContent = quest.icon;
+        document.getElementById('dash-quest-title').textContent = quest.title;
+        document.getElementById('dash-quest-progress-text').textContent = `${progress.completed}/${progress.total} capítulos`;
+        document.getElementById('dash-quest-progress-bar').style.width = `${progress.percent}%`;
+        
+        const discovered = EcoApp.getDiscoveredCreatures();
+        if (discovered.length > 0) {
+          const firstStage = EcoApp.getCreatureStage(discovered[0].id);
+          if (firstStage) {
+            document.getElementById('dash-companion-emoji').textContent = firstStage.emoji;
+          }
+        } else {
+          document.getElementById('dash-companion-emoji').textContent = '🥚';
+        }
       }
 
       // Render Leaderboard
@@ -224,8 +235,8 @@
       btnInvite.addEventListener('click', () => {
         if (navigator.share) {
           navigator.share({
-            title: '¡Únete a mi patrulla en EcoScanner!',
-            text: 'Estamos reciclando y ganando premios. ¡Únete a Los Guardianes Verdes!',
+            title: '¡Únete a mi patrulla en EcoScanner Adventures!',
+            text: '¡Únete a mi patrulla para completar misiones y descubrir criaturas!',
             url: window.location.href
           });
         } else {
@@ -233,10 +244,37 @@
         }
       });
 
+      // Creatures Preview
+      const cContainer = document.getElementById('dash-creatures-preview');
+      const discovered = EcoApp.getDiscoveredCreatures().slice(0, 3);
+      if (discovered.length > 0) {
+        cContainer.innerHTML = discovered.map(c => {
+          const def = EcoApp.getAllCreatures().find(x => x.id === c.id);
+          const stage = EcoApp.getCreatureStage(c.id);
+          return `
+            <div class="card card-padded" style="min-width: 100px; text-align: center; flex: 1; padding: 12px; cursor: pointer;" onclick="location.href='criaturas.html'">
+              <div style="font-size: 32px; margin-bottom: 4px;" class="anim-creature-float">${stage.emoji}</div>
+              <div class="t-xs fw-8 c-dark">${def.name}</div>
+            </div>
+          `;
+        }).join('');
+      } else {
+        cContainer.innerHTML = `<div class="t-sm c-mid fw-6 px-2 w-full">Aún no has descubierto criaturas. ¡Empieza una aventura!</div>`;
+      }
+
       // Render top 2 missions
+      // Update mission titles dynamically to match adventure theme
       const mContainer = document.getElementById('missions-container');
-      const missions = EcoApp.getMissions().slice(0,2);
-      missions.forEach((m, i) => {
+      const originalMissions = EcoApp.getMissions();
+      const updatedMissions = originalMissions.map((m, i) => {
+        const newM = {...m};
+        if (i===0) newM.title = 'Alimenta a tu criatura 3 veces';
+        if (i===1) newM.title = 'Documenta tu descubrimiento';
+        if (i===2) newM.title = 'Misión Flash: ¡Primer explorador!';
+        return newM;
+      }).slice(0,2);
+      
+      updatedMissions.forEach((m, i) => {
         const el = document.createElement('div');
         el.className = `mission-card anim-slideUp delay-${i+4}`;
         el.innerHTML = `

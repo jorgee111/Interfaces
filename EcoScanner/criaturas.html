@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Tus Criaturas — EcoScanner Adventures</title>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+  <div class="app-container">
+    <div class="page" style="padding-bottom: calc(var(--nav-h) + 8px);">
+
+      <!-- ─── HEADER BAR ─── -->
+      <header class="top-bar">
+        <div class="flex items-c gap-2">
+          <span class="fw-8 t-lg c-dark">Tus Criaturas</span>
+        </div>
+        <div class="badge-adventure" id="header-count-badge">0/6</div>
+      </header>
+
+      <!-- ─── FEATURED CREATURE ─── -->
+      <section style="padding: 0 var(--sp-4); margin-bottom: var(--sp-6);" class="anim-fadeInUp delay-1">
+        <div class="quest-hero" id="featured-creature" style="text-align: center; position: relative; overflow: hidden; background: linear-gradient(135deg, var(--creature-forest) 0%, #047857 100%);">
+          <!-- Ambient elements -->
+          <div style="position: absolute; top: -20px; right: -20px; font-size: 100px; opacity: 0.1; transform: rotate(15deg);">🍃</div>
+          
+          <div style="position: relative; z-index: 1;">
+            <div style="font-size: 4rem; margin-bottom: 8px;" class="anim-creature-float" id="feat-emoji">🦊</div>
+            <div class="badge-adventure" style="background: rgba(255,255,255,0.2); color: white; border: none; margin: 0 auto 8px;" id="feat-stage-name">Zorro del Bosque</div>
+            <h2 style="font-size: 24px; font-weight: 900; margin-bottom: 4px;" id="feat-name">Leaf Fox</h2>
+            <p style="font-size: 13px; opacity: 0.9; margin-bottom: 24px;" id="feat-desc">Conoce cada rincón del bosque.</p>
+
+            <div class="evolution-bar" style="background: rgba(255,255,255,0.2); margin-bottom: 24px;">
+              <div class="evolution-bar__fill" id="feat-progress" style="background: #fff; width: 33%;"></div>
+              <div class="evolution-bar__milestone" style="left: 33%;"></div>
+              <div class="evolution-bar__milestone" style="left: 66%;"></div>
+            </div>
+
+            <button class="btn btn-primary w-full" id="btn-feed-featured" style="background: white; color: var(--creature-forest); border: none;">
+              <i class='bx bx-apple'></i> Alimentar (10 pts)
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ─── COLLECTION GRID ─── -->
+      <section style="padding: 0 var(--sp-4); margin-bottom: var(--sp-6);" class="anim-fadeInUp delay-2">
+        <h2 class="card-section-title mb-3">Colección Completa</h2>
+        <div class="creature-grid" id="collection-grid">
+          <!-- Se llena dinámicamente -->
+        </div>
+      </section>
+
+      <!-- ─── TIPS ─── -->
+      <section style="padding: 0 var(--sp-4); margin-bottom: var(--sp-6);" class="anim-fadeInUp delay-3">
+        <h2 class="card-section-title mb-3">¿Cómo descubrir más?</h2>
+        <div class="card card-padded flex flex-col gap-3">
+          <div class="flex items-c gap-3">
+            <div style="font-size: 24px;">🗺️</div>
+            <p class="t-sm fw-6 c-dark">Completa aventuras para desbloquear criaturas nuevas.</p>
+          </div>
+          <div class="flex items-c gap-3">
+            <div style="font-size: 24px;">📷</div>
+            <p class="t-sm fw-6 c-dark">Escanea en Eco-Estaciones para ganar puntos y alimentarlas.</p>
+          </div>
+          <div class="flex items-c gap-3">
+            <div style="font-size: 24px;">🧠</div>
+            <p class="t-sm fw-6 c-dark">Responde trivias para ganar alimento rápido.</p>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- .page -->
+
+    <!-- ─── CREATURE DETAIL MODAL ─── -->
+    <div id="creature-modal" class="modal-overlay hidden">
+      <div class="modal-sheet tc" style="padding-bottom: 40px;">
+        <button class="modal-close-btn" id="btn-close-modal">×</button>
+        <div class="modal-handle"></div>
+        
+        <div style="position: relative; height: 120px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+          <div class="creature-card__glow" id="modal-glow" style="width: 100px; height: 100px;"></div>
+          <div style="font-size: 5rem; position: relative; z-index: 1;" class="anim-creature-float" id="modal-emoji">🦊</div>
+        </div>
+
+        <h2 class="t-2xl fw-9 c-dark" id="modal-name">Leaf Fox</h2>
+        <div class="badge-adventure mx-auto mt-2 mb-3" id="modal-stage">Zorro del Bosque</div>
+        <p class="c-mid t-sm fw-6 mb-6 px-4" id="modal-desc">Descripción...</p>
+
+        <!-- Stats -->
+        <div class="flex gap-2 mb-6 px-4">
+          <div class="card card-padded flex-1 tc" style="padding: 12px;">
+            <div class="t-xs c-mid fw-7 uppercase mb-1">Elemento</div>
+            <div class="t-sm fw-8 c-dark" id="modal-element">🌲 Bosque</div>
+          </div>
+          <div class="card card-padded flex-1 tc" style="padding: 12px;">
+            <div class="t-xs c-mid fw-7 uppercase mb-1">Alimentado</div>
+            <div class="t-sm fw-8 c-dark" id="modal-feedcount">5 veces</div>
+          </div>
+        </div>
+
+        <div class="px-4">
+          <button class="btn btn-primary w-full" id="btn-modal-feed">
+            <i class='bx bx-apple'></i> Alimentar (10 pts)
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ─── BOTTOM NAV ─── -->
+    <nav class="bottom-nav">
+      <a href="index.html" class="nav-item" id="nav-home">
+        <i class='bx bx-home-alt'></i>
+        <span>Inicio</span>
+      </a>
+      <a href="dashboard.html" class="nav-item" id="nav-ranking">
+        <i class='bx bx-trophy'></i>
+        <span>Ranking</span>
+      </a>
+      <a href="aventura.html" class="nav-item nav-item--main" id="nav-aventura">
+        <i class='bx bx-compass'></i>
+        <span>Aventura</span>
+      </a>
+      <a href="criaturas.html" class="nav-item active" id="nav-criaturas">
+        <i class='bx bxs-leaf'></i>
+        <span>Criaturas</span>
+      </a>
+      <a href="profile.html" class="nav-item" id="nav-profile">
+        <i class='bx bx-user'></i>
+        <span>Perfil</span>
+      </a>
+    </nav>
+  </div><!-- .app-container -->
+
+  <script src="js/confetti.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      EcoApp.initNav('criaturas');
+
+      const allCreatures = EcoApp.getAllCreatures();
+      let discovered = EcoApp.getDiscoveredCreatures();
+      
+      document.getElementById('header-count-badge').textContent = `${discovered.length}/${allCreatures.length}`;
+
+      let currentFeaturedId = discovered.length > 0 ? discovered[0].id : null;
+
+      function updateFeatured() {
+        if (!currentFeaturedId) {
+          document.getElementById('featured-creature').style.display = 'none';
+          return;
+        }
+        
+        const stage = EcoApp.getCreatureStage(currentFeaturedId);
+        const def = allCreatures.find(c => c.id === currentFeaturedId);
+        const stateC = EcoApp.getDiscoveredCreatures().find(c => c.id === currentFeaturedId);
+        const level = EcoApp.getCreatureLevel(currentFeaturedId);
+        
+        if (!stage || !def || !stateC) return;
+
+        document.getElementById('feat-emoji').textContent = stage.emoji;
+        document.getElementById('feat-stage-name').textContent = stage.name;
+        document.getElementById('feat-name').textContent = def.name;
+        document.getElementById('feat-desc').textContent = stage.description;
+        
+        const feedCount = stateC.feedCount;
+        let percent = 0;
+        if (level === 0) percent = (feedCount / 5) * 33;
+        else if (level === 1) percent = 33 + ((feedCount - 5) / 10) * 33;
+        else percent = 100;
+        
+        document.getElementById('feat-progress').style.width = `${Math.min(100, percent)}%`;
+        
+        const featuredCard = document.getElementById('featured-creature');
+        featuredCard.style.background = `linear-gradient(135deg, ${def.color} 0%, #111 150%)`;
+        const btn = document.getElementById('btn-feed-featured');
+        btn.style.color = def.color;
+
+        // If max level, hide feed button
+        if (level >= 2) {
+          btn.innerHTML = "<i class='bx bx-check'></i> Evolución Máxima";
+          btn.disabled = true;
+          btn.style.opacity = '0.7';
+        } else {
+          btn.innerHTML = "<i class='bx bx-apple'></i> Alimentar (10 pts)";
+          btn.disabled = false;
+          btn.style.opacity = '1';
+        }
+      }
+
+      function updateGrid() {
+        const gridHtml = allCreatures.map(def => {
+          const isDisc = EcoApp.isCreatureDiscovered(def.id);
+          if (isDisc) {
+            const stage = EcoApp.getCreatureStage(def.id);
+            const level = EcoApp.getCreatureLevel(def.id);
+            return `
+              <div class="creature-card anim-creature-discover" style="background: ${def.bgGradient}; cursor: pointer;" onclick="openModal('${def.id}')">
+                <div class="creature-card__glow" style="background: radial-gradient(circle, ${def.color}40 0%, transparent 70%);"></div>
+                <div class="creature-card__level">Nv. ${level + 1}</div>
+                <div class="creature-card__avatar anim-creature-float">${stage.emoji}</div>
+                <div class="creature-card__name">${def.name}</div>
+              </div>
+            `;
+          } else {
+            return `
+              <div class="creature-card creature-card--undiscovered" onclick="alert('¡Completa aventuras para descubrir esta criatura!')">
+                <div class="creature-card__glow"></div>
+                <div class="creature-card__avatar">?</div>
+                <div class="creature-card__name">Sin descubrir</div>
+              </div>
+            `;
+          }
+        }).join('');
+        document.getElementById('collection-grid').innerHTML = gridHtml;
+      }
+
+      updateFeatured();
+      updateGrid();
+
+      // Modal
+      const modal = document.getElementById('creature-modal');
+      let activeModalCreature = null;
+
+      window.openModal = (id) => {
+        activeModalCreature = id;
+        const stage = EcoApp.getCreatureStage(id);
+        const def = allCreatures.find(c => c.id === id);
+        const stateC = EcoApp.getDiscoveredCreatures().find(c => c.id === id);
+        const level = EcoApp.getCreatureLevel(id);
+
+        document.getElementById('modal-emoji').textContent = stage.emoji;
+        document.getElementById('modal-name').textContent = def.name;
+        document.getElementById('modal-stage').textContent = stage.name;
+        document.getElementById('modal-desc').textContent = stage.description;
+        document.getElementById('modal-glow').style.background = `radial-gradient(circle, ${def.color}60 0%, transparent 70%)`;
+        document.getElementById('modal-element').innerHTML = `<span style="color:${def.color};">●</span> ${def.element.toUpperCase()}`;
+        document.getElementById('modal-feedcount').textContent = `${stateC.feedCount} veces`;
+
+        const btn = document.getElementById('btn-modal-feed');
+        if (level >= 2) {
+          btn.innerHTML = "<i class='bx bx-check'></i> Evolución Máxima";
+          btn.disabled = true;
+          btn.style.opacity = '0.5';
+        } else {
+          btn.innerHTML = "<i class='bx bx-apple'></i> Alimentar (10 pts)";
+          btn.disabled = false;
+          btn.style.opacity = '1';
+        }
+
+        modal.classList.remove('hidden');
+      };
+
+      document.getElementById('btn-close-modal').onclick = () => modal.classList.add('hidden');
+
+      function handleFeed(id) {
+        if (EcoApp.getPoints() >= 10) {
+          EcoApp.spendPoints(10);
+          EcoApp.feedCreature(id);
+          Confetti.fire();
+          updateFeatured();
+          updateGrid();
+          if (activeModalCreature === id) window.openModal(id); // refresh modal
+        } else {
+          alert('¡No tienes suficientes puntos! Necesitas 10 puntos para alimentar.');
+        }
+      }
+
+      document.getElementById('btn-feed-featured').onclick = () => {
+        if (currentFeaturedId) handleFeed(currentFeaturedId);
+      };
+
+      document.getElementById('btn-modal-feed').onclick = () => {
+        if (activeModalCreature) handleFeed(activeModalCreature);
+      };
+
+      document.addEventListener('eco:creature-evolved', (e) => {
+        alert(`¡INCREÍBLE! Tu criatura ha evolucionado al Nivel ${e.detail.newLevel + 1}!`);
+        Confetti.fire();
+      });
+    });
+  </script>
+</body>
+</html>
