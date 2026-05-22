@@ -339,12 +339,12 @@ const EcoApp = (() => {
   ];
 
   const REWARDS_CATALOG = [
-    { id:'r1', title:'10% de Descuento', desc:'En tu próxima entrada al parque', cost:50,  category:'descuento', color:'linear-gradient(135deg, #FF9500, #FFCC00)',  icon:'<i class="bx bx-purchase-tag-alt"></i>',  available:true },
-    { id:'r2', title:'Fast Pass Premium',     desc:'Acceso rápido a 3 atracciones',  cost:120, category:'fastpass',  color:'linear-gradient(135deg, #AF52DE, #FF2D55)', icon:'<i class="bx bxs-zap"></i>',  available:true },
-    { id:'r3', title:'Pin Edición Limitada',  desc:'Coleccionable exclusivo del parque', cost:80, category:'colec', color:'linear-gradient(135deg, #00A1FF, #007AFF)',   icon:'<i class="bx bx-pin"></i>', available:true },
-    { id:'r4', title:'Menú Eco Gratis',       desc:'Bebida + snack sostenible',       cost:90,  category:'comida',   color:'linear-gradient(135deg, #34C759, #28A745)', icon:'<i class="bx bx-restaurant"></i>',  available:true },
-    { id:'r5', title:'Filtro AR Exclusivo',   desc:'Filtro especial para tus fotos',  cost:30,  category:'digital',  color:'var(--primary-gradient)','icon':'<i class="bx bx-camera-movie"></i>', available:true },
-    { id:'r6', title:'Donación Árbol',        desc:'Plantamos un árbol en tu nombre', cost:60,  category:'donacion', color:'linear-gradient(135deg, #2ECC71, #27AE60)',       icon:'<i class="bx bx-tree"></i>',  available:true },
+    { id:'r1', title:'Palomitas Gratis',      desc:'Canjea por unas palomitas pequeñas', cost:40,  category:'comida',    color:'linear-gradient(135deg, #FF9500, #FFCC00)',  icon:'<i class="bx bx-bowl-hot"></i>',  available:true },
+    { id:'r2', title:'Refresco Mediano',      desc:'Bebida refrescante gratis',          cost:30,  category:'comida',    color:'linear-gradient(135deg, #00A1FF, #007AFF)',  icon:'<i class="bx bx-drink"></i>',     available:true },
+    { id:'r3', title:'Fast Pass Faunia',      desc:'Acceso rápido a 1 exhibición',       cost:100, category:'fastpass',  color:'linear-gradient(135deg, #AF52DE, #FF2D55)',  icon:'<i class="bx bxs-zap"></i>',      available:true },
+    { id:'r4', title:'Entrada 50% Parque Warner', desc:'Descuento para tu próxima aventura', cost:250, category:'entradas',  color:'linear-gradient(135deg, #34C759, #28A745)',  icon:'<i class="bx bx-ticket"></i>',    available:true },
+    { id:'r5', title:'Entrada Parque de Atracciones', desc:'Entrada gratis 1 día',       cost:500, category:'entradas',  color:'var(--primary-gradient)',                    icon:'<i class="bx bxs-coupon"></i>',   available:true },
+    { id:'r6', title:'Pin Edición Limitada',  desc:'Coleccionable exclusivo del parque', cost:80,  category:'colec',     color:'linear-gradient(135deg, #2ECC71, #27AE60)',  icon:'<i class="bx bx-pin"></i>',       available:true },
   ];
 
   const LEADERBOARD = [

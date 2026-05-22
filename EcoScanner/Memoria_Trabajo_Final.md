@@ -17,7 +17,7 @@ Para resolver este problema hemos desarrollado **EcoScanner Adventures**, una ap
 * **Aventura y Exploración:** El mapa de Faunia se convierte en un tablero de juego donde hay misiones y misterios.
 * **Colección de Criaturas:** Los usuarios descubren criaturas virtuales asociadas a los ecosistemas reales del parque.
 * **Mecánica Central:** Para evolucionar a estas criaturas y avanzar en la aventura, el usuario necesita "Eco-Puntos". La única forma de conseguirlos es escaneando los códigos QR de los contenedores al reciclar sus residuos correctamente o participando en los minijuegos "Anti-Filas" para aprender sobre el medio ambiente.
-* **Recompensas reales:** El impacto digital se traduce al mundo físico mediante el "Marketplace", donde los Eco-Puntos se canjean por comida, merchandising o *Fast Passes* reales.
+* **Recompensas reales:** El impacto digital se traduce al mundo físico mediante la sección de "Premios". Los Eco-Puntos actúan como moneda de cambio para incentivar el uso continuo de la aplicación, permitiendo al usuario canjearlos por recompensas tangibles dentro del grupo Parques Reunidos (por ejemplo: Palomitas gratis, Refrescos, Fast Passes, o incluso Entradas con descuento o gratuitas para otros parques como Parque Warner o Parque de Atracciones).
 
 ## 5. ¿Soluciona nuestro trabajo el problema? (Justificación)
 Consideramos que nuestro trabajo soluciona el problema de manera **PARCIAL, con potencial de ser una solución TOTAL tras su despliegue físico.**
