@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>EcoScanner - Ranking</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+  <div class="app-container">
+    <div class="page">
+      
+      <!-- Top Bar -->
+    <div class="top-bar anim-fadeInDown">
+      <div class="top-bar-title"></div>
+      <div class="top-bar-pts">
+        <i class='bx bxs-star' style="color: #FFB300;"></i> <span id="user-pts-top">0</span>
+      </div>
+    </div>
+
+    <div class="content pt-0">
+      
+      <!-- Hero Card (User Level) -->
+      <div class="hero-card anim-scaleIn delay-1">
+        <div class="flex items-c justify-b mb-4">
+          <div class="flex items-c gap-3">
+            <div style="background: rgba(255,255,255,0.2); width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; border-radius: 16px; font-size: 28px; color: #FFD700; box-shadow: var(--shadow-sm);">
+              <i class='bx bxs-star'></i>
+            </div>
+            <div>
+              <div class="t-xl fw-9" id="user-name">Usuario</div>
+              <div class="t-sm fw-6 opacity-9 flex items-c gap-1"><i class='bx bx-leaf'></i> <span id="user-level-name">Nivel</span></div>
+            </div>
+          </div>
+          <div class="tc">
+            <div class="fw-9" id="user-rank" style="font-size: 44px; line-height: 1; margin-bottom: 2px;">#--</div>
+            <div class="t-xs fw-7 opacity-9">Ranking</div>
+          </div>
+        </div>
+
+        <div class="mt-5">
+          <div class="flex justify-b t-xs fw-8 mb-2">
+            <span>Progreso a próxima recompensa</span>
+            <span id="level-progress-text">--/-- pts</span>
+          </div>
+          <div class="prog-bar-wrap" style="height: 6px;">
+            <div class="prog-bar-fill" id="level-progress-bar" style="width: 0%; background: #FFD700;"></div>
+          </div>
+        </div>
+        
+        <div class="mt-5 flex items-c gap-2 t-lg fw-9">
+          <i class='bx bx-award' style="font-size: 24px;"></i> <span id="user-pts-card">0</span> Eco-Puntos
+        </div>
+      </div>
+
+      <!-- Ranking Section -->
+      <div class="card p-4 mt-4 anim-slideUp delay-2">
+        <div class="flex items-c justify-b mb-4">
+          <h2 class="card-section-title">
+            <div style="background: var(--primary-light); padding: 8px; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; color: var(--primary-dark); font-size: 18px;">
+              <i class='bx bx-trophy'></i>
+            </div>
+            Tabla de Clasificación
+          </h2>
+          <div class="flex items-c gap-1 text-xs fw-7 c-primary">
+            <i class='bx bx-trending-up'></i> En vivo
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tab-bar mb-4">
+          <div class="tab-btn active" id="tab-individual">Individual</div>
+          <div class="tab-btn" id="tab-patrols">Patrullas</div>
+        </div>
+
+        <!-- Patrol Header (Hidden by default) -->
+        <div id="patrol-header" class="hidden mb-4 p-3 rounded-xl anim-fadeInDown" style="background: var(--primary-light); border: 1px solid rgba(0,201,167,0.2);">
+          <div class="flex items-c justify-b mb-2">
+            <div class="t-sm fw-8 c-dark"><i class='bx bx-target-lock' style="color: var(--primary);"></i> Meta Diaria: 50 Acciones</div>
+            <div class="t-xs fw-7 c-primary">24/50</div>
+          </div>
+          <div class="prog-bar-wrap mb-3" style="height: 8px; background: rgba(0,201,167,0.2);">
+            <div class="prog-bar-fill" style="width: 48%; background: var(--primary-gradient);"></div>
+          </div>
+          <button id="btn-invite" class="btn btn-secondary w-full" style="padding: 10px; font-size: 13px;">
+            <i class='bx bx-user-plus'></i> Invitar Amigos a la Patrulla
+          </button>
+        </div>
+
+        <!-- Leaderboard List -->
+        <div class="flex flex-col gap-2" id="leaderboard-container">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Trivia Banner -->
+      <div class="mt-4 anim-fadeInDown delay-5">
+        <div class="card p-4" style="background: linear-gradient(135deg, var(--purple), #5b35d5); color: white; display: flex; align-items: center; justify-content: space-between; cursor: pointer; box-shadow: var(--shadow-purple);" onclick="location.href='trivia.html'">
+          <div>
+            <h3 class="t-md fw-9 mb-1"><i class='bx bx-joystick'></i> Minijuego Anti-Filas</h3>
+            <p class="t-xs fw-6 opacity-8">¿Aburrido en la cola? Juega y gana +5 pts.</p>
+          </div>
+          <div style="background: rgba(255,255,255,0.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px;">
+            <i class='bx bx-chevron-right'></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Misiones Rápidas -->
+      <div class="mt-4 mb-2 flex items-c justify-b px-2 anim-slideUp delay-3">
+        <h3 class="t-md fw-8 c-dark">Misiones del Día</h3>
+        <a href="mision-diaria.html" class="t-sm fw-7 c-primary">Ver todas</a>
+      </div>
+      <div class="flex flex-col gap-3 anim-slideUp delay-4" id="missions-container">
+        <!-- Populated by JS (only first 2) -->
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom Nav -->
+  <nav class="bottom-nav">
+    <div class="nav-item" id="nav-index" onclick="location.href='index.html'">
+      <i class='bx bx-qr-scan nav-icon'></i>
+      <span class="nav-label">Escanear</span>
+    </div>
+    <div class="nav-item active" id="nav-dashboard" onclick="location.href='dashboard.html'">
+      <i class='bx bx-trophy nav-icon'></i>
+      <span class="nav-label">Ranking</span>
+    </div>
+    <div class="nav-item" id="nav-marketplace" onclick="location.href='marketplace.html'">
+      <i class='bx bx-gift nav-icon'></i>
+      <span class="nav-label">Premios</span>
+    </div>
+    <div class="nav-item" id="nav-map" onclick="location.href='mapa.html'">
+      <i class='bx bx-map-alt nav-icon'></i>
+      <span class="nav-label">Mapa</span>
+    </div>
+    <div class="nav-item" id="nav-profile" onclick="location.href='profile.html'">
+      <i class='bx bx-user nav-icon'></i>
+      <span class="nav-label">Perfil</span>
+    </div>
+  </nav>
+  </div> <!-- app-container -->
+
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      EcoApp.initNav('dashboard');
+      const state = EcoApp.get();
+      const level = EcoApp.getLevelData();
+      const nextLvl = EcoApp.getNextLevelData();
+      
+      // Update UI
+      document.getElementById('user-pts-top').textContent = state.points;
+      document.getElementById('user-pts-card').textContent = state.points;
+      document.getElementById('user-name').textContent = state.user.name;
+      document.getElementById('user-level-name').textContent = level.name;
+      document.getElementById('user-rank').textContent = '#' + state.rank;
+      
+      if (nextLvl) {
+        document.getElementById('level-progress-text').textContent = `${state.points}/${nextLvl.min} pts`;
+        setTimeout(() => {
+          document.getElementById('level-progress-bar').style.width = EcoApp.getProgress() + '%';
+        }, 300);
+      } else {
+        document.getElementById('level-progress-text').textContent = 'Nivel Máximo';
+        document.getElementById('level-progress-bar').style.width = '100%';
+      }
+
+      // Render Leaderboard
+      const lbContainer = document.getElementById('leaderboard-container');
+      const renderLeaderboard = (data, isPatrol = false) => {
+        lbContainer.innerHTML = '';
+        data.forEach((item, idx) => {
+          let badgeClass = 'plain';
+          if (idx === 0) badgeClass = 'gold';
+          else if (idx === 1) badgeClass = 'silver';
+          else if (idx === 2) badgeClass = 'bronze';
+
+          const el = document.createElement('div');
+          el.className = `rank-item ${item.isUser ? 'is-user' : ''} anim-fadeInUp delay-${(idx%5)+1}`;
+          
+          let content = `
+            <div class="rank-badge ${badgeClass}">#${item.rank}</div>
+            <div class="rank-info">
+              <div class="rank-name flex items-c gap-2">
+                ${isPatrol ? '<i class="bx bx-group"></i>' : '<i class="bx bx-leaf" style="color: var(--primary);"></i>'} ${item.name}
+                ${item.isUser ? '<span class="badge badge-primary" style="padding: 2px 6px; font-size: 9px;">TÚ</span>' : ''}
+              </div>
+              <div class="rank-pts">${item.pts} puntos ${isPatrol ? `• ${item.members} miembros` : ''}</div>
+            </div>
+            <div class="rank-trophy" style="opacity: ${idx < 3 ? '1' : '0.2'}; font-size: 20px; color: ${idx === 0 ? '#FFD700' : idx === 1 ? '#B0BEC5' : idx === 2 ? '#FF7043' : 'var(--text-muted)'};">
+              <i class='bx bx-trophy'></i>
+            </div>
+          `;
+          el.innerHTML = content;
+          lbContainer.appendChild(el);
+        });
+      };
+
+      renderLeaderboard(EcoApp.getLeaderboard());
+
+      // Tabs
+      const tabInd = document.getElementById('tab-individual');
+      const tabPat = document.getElementById('tab-patrols');
+      const pHeader = document.getElementById('patrol-header');
+      const btnInvite = document.getElementById('btn-invite');
+
+      tabInd.addEventListener('click', () => {
+        tabInd.classList.add('active'); tabPat.classList.remove('active');
+        pHeader.classList.add('hidden');
+        renderLeaderboard(EcoApp.getLeaderboard());
+      });
+      tabPat.addEventListener('click', () => {
+        tabPat.classList.add('active'); tabInd.classList.remove('active');
+        pHeader.classList.remove('hidden');
+        renderLeaderboard(EcoApp.getPatrolBoard(), true);
+      });
+
+      btnInvite.addEventListener('click', () => {
+        if (navigator.share) {
+          navigator.share({
+            title: '¡Únete a mi patrulla en EcoScanner!',
+            text: 'Estamos reciclando y ganando premios. ¡Únete a Los Guardianes Verdes!',
+            url: window.location.href
+          });
+        } else {
+          alert('Enlace copiado al portapapeles: ecoscanner.app/invite/12345');
+        }
+      });
+
+      // Render top 2 missions
+      const mContainer = document.getElementById('missions-container');
+      const missions = EcoApp.getMissions().slice(0,2);
+      missions.forEach((m, i) => {
+        const el = document.createElement('div');
+        el.className = `mission-card anim-slideUp delay-${i+4}`;
+        el.innerHTML = `
+          <div class="mission-icon-wrap">${m.icon}</div>
+          <div class="mission-body">
+            <div class="mission-title">${m.title}</div>
+            <div class="mission-desc">${m.desc}</div>
+            <div class="mission-progress">
+              <div class="mission-progress-fill" style="width: ${(m.progress/m.total)*100}%"></div>
+            </div>
+          </div>
+          <div class="mission-pts">+${m.pts}</div>
+        `;
+        mContainer.appendChild(el);
+      });
+    });
+  </script>
+</body>
+</html>

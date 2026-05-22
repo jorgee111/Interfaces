@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>EcoScanner - Perfil</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+  <div class="app-container">
+    <div class="page">
+    <!-- Top Bar with Menu -->
+    <div class="top-bar anim-fadeInDown">
+      <div class="top-bar-title">Tu Perfil</div>
+      <button class="btn-ghost" style="border: none; padding: 4px; font-size: 24px; border-radius: 50%;" id="btn-dark-mode">
+        <i class='bx bx-moon'></i>
+      </button>
+    </div>
+
+    <div class="content pt-0">
+      
+      <!-- User Card -->
+      <div class="card p-4 mb-5 anim-fadeInDown">
+        <div class="flex items-c gap-4">
+          <div style="background: var(--primary-gradient); width: 64px; height: 64px; display: flex; align-items: center; justify-content: center; border-radius: 20px; font-size: 32px; color: #FFD700; box-shadow: var(--shadow-sm);">
+            <i class='bx bxs-star'></i>
+          </div>
+          <div class="flex-1">
+            <div class="flex items-c justify-b">
+              <h2 class="t-xl fw-9 c-dark" id="p-name">Nombre</h2>
+              <button class="btn btn-ghost" style="padding: 6px; border-radius: 8px; border: none; background: var(--primary-light); color: var(--primary-darker);">
+                <i class='bx bx-share-alt' style="font-size: 20px;"></i>
+              </button>
+            </div>
+            <div class="flex items-c gap-3 mt-1 t-sm fw-7 c-mid">
+              <div class="flex items-c gap-1"><i class='bx bx-award'></i> Ranking <span class="c-dark fw-9" id="p-rank">#--</span></div>
+              <div style="width: 4px; height: 4px; background: var(--text-muted); border-radius: 50%;"></div>
+              <div class="flex items-c gap-1"><i class='bx bx-leaf'></i> <span class="c-dark fw-9" id="p-pts">--</span> puntos</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Eco-Gotchi -->
+      <div class="card p-4 mt-4 anim-scaleIn delay-1" style="display: flex; align-items: center; justify-content: space-between; border-left: 4px solid var(--primary); margin: 0 var(--sp-4);">
+        <div class="flex items-c gap-3">
+          <div id="mascot-icon" style="background: var(--primary-light); width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; color: var(--primary);">
+            <i class='bx bx-leaf'></i>
+          </div>
+          <div>
+            <div class="t-md fw-9" id="mascot-name">Brote Tímido</div>
+            <div class="t-xs fw-6 c-mid" id="mascot-desc">Empieza a crecer.</div>
+          </div>
+        </div>
+        <div class="tc">
+          <div class="badge badge-primary" id="mascot-mood">Feliz 😊</div>
+          <div class="t-xs fw-7 mt-1 opacity-8">Eco-Gotchi</div>
+        </div>
+      </div>
+
+      <!-- Main Info -->
+        <div class="mt-4 p-3 rounded-xl flex items-c justify-b" style="background: var(--primary-light); border: 1px solid rgba(0,201,167,0.2);">
+          <div class="flex items-c gap-3">
+            <div style="background: var(--primary-gradient); color: white; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px;"><i class='bx bx-group'></i></div>
+            <div>
+              <div class="t-xs fw-7 c-primary-dark">Patrulla</div>
+              <div class="t-base fw-9 c-dark" id="p-patrol-name">Nombre Patrulla</div>
+            </div>
+          </div>
+          <div class="tc">
+            <div class="t-lg fw-9 c-dark" id="p-patrol-pts">0</div>
+            <div class="t-xs fw-6 c-mid"><span id="p-patrol-members">0</span> miembros</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Impact Metrics -->
+      <div class="flex items-c gap-2 mb-3 anim-slideUp delay-1">
+        <div style="background: var(--primary-dark); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px;"><i class='bx bx-leaf'></i></div>
+        <h3 class="t-lg fw-9 c-dark">Tu Impacto Real</h3>
+      </div>
+
+      <div class="grid-2 mb-5">
+        <!-- Injected via JS -->
+      </div>
+
+      <!-- Oracle Panel (NEW FEATURE) -->
+      <div class="card p-4 mb-5 anim-slideUp delay-3" style="background: linear-gradient(135deg, var(--bg-card), var(--primary-light)); border: 2px solid rgba(0,201,167,0.2);">
+        <h3 class="t-md fw-8 c-dark mb-3 tc">🌍 Eco-Oracle</h3>
+        <p class="t-xs tc c-mid fw-6 mb-4 px-2">El impacto acumulado de tus acciones equivale a los siguientes beneficios ambientales reales:</p>
+        
+        <div class="grid-2" id="oracle-grid">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+
+      <!-- History -->
+      <h3 class="t-md fw-8 c-dark mb-3 anim-slideUp delay-4">Historial de Actividad</h3>
+      <div class="card p-4 mb-4 anim-slideUp delay-5" id="history-container">
+        <!-- Injected via JS -->
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom Nav -->
+  <nav class="bottom-nav">
+    <div class="nav-item" id="nav-index" onclick="location.href='index.html'">
+      <i class='bx bx-qr-scan nav-icon'></i>
+      <span class="nav-label">Escanear</span>
+    </div>
+    <div class="nav-item" id="nav-dashboard" onclick="location.href='dashboard.html'">
+      <i class='bx bx-trophy nav-icon'></i>
+      <span class="nav-label">Ranking</span>
+    </div>
+    <div class="nav-item" id="nav-marketplace" onclick="location.href='marketplace.html'">
+      <i class='bx bx-gift nav-icon'></i>
+      <span class="nav-label">Premios</span>
+    </div>
+    <div class="nav-item" id="nav-map" onclick="location.href='mapa.html'">
+      <i class='bx bx-map-alt nav-icon'></i>
+      <span class="nav-label">Mapa</span>
+    </div>
+    <div class="nav-item active" id="nav-profile" onclick="location.href='profile.html'">
+      <i class='bx bx-user nav-icon'></i>
+      <span class="nav-label">Perfil</span>
+    </div>
+  </nav>
+  </div> <!-- app-container -->
+
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      EcoApp.initNav('profile');
+      const state = EcoApp.get();
+
+      // Profile Info
+      document.getElementById('p-name').textContent = state.user.name;
+      document.getElementById('p-rank').textContent = '#' + state.rank;
+      document.getElementById('p-pts').textContent = state.points;
+      
+      document.getElementById('p-patrol-name').textContent = state.patrol.name;
+      document.getElementById('p-patrol-pts').textContent = state.patrol.points;
+      document.getElementById('p-patrol-members').textContent = state.patrol.members;
+
+      // Eco-Gotchi
+      const mascot = EcoApp.getMascotData();
+      const mIcon = document.getElementById('mascot-icon');
+      mIcon.innerHTML = mascot.icon;
+      mIcon.style.color = mascot.color;
+      document.getElementById('mascot-name').textContent = mascot.name;
+      document.getElementById('mascot-desc').textContent = mascot.desc;
+      document.getElementById('mascot-mood').textContent = mascot.mood;
+
+      // Metrics Grid
+      const metrics = EcoApp.getMetrics();
+      const grid = document.querySelector('.grid-2');
+      let delay = 1;
+      for (const key in metrics) {
+        const m = metrics[key];
+        const el = document.createElement('div');
+        el.className = `stat-card ${m.color} anim-scaleIn delay-${delay++}`;
+        el.innerHTML = `
+          <div class="stat-icon" style="font-size: 24px; margin-bottom: 4px;">${m.icon}</div>
+          <div class="stat-value">${m.value}<span style="font-size: 14px; margin-left: 4px; font-weight: 700;">${m.unit}</span></div>
+          <div class="stat-label">${m.label}</div>
+        `;
+        grid.appendChild(el);
+      }
+
+      // Oracle Grid
+      const oracleData = EcoApp.getOracle(state.points);
+      const oGrid = document.getElementById('oracle-grid');
+      const oracleItems = [
+        { val: oracleData.trees, lbl: 'Árboles Plantados', icon: '<i class="bx bx-tree"></i>' },
+        { val: oracleData.water, lbl: 'Litros Agua Ahorrados', icon: '<i class="bx bx-water"></i>' },
+        { val: oracleData.co2, lbl: 'Kg CO₂ Evitados', icon: '<i class="bx bx-cloud"></i>' },
+        { val: oracleData.energy, lbl: 'kWh Energía Ahorrada', icon: '<i class="bx bxs-zap"></i>' }
+      ];
+      
+      oracleItems.forEach((item, i) => {
+        const el = document.createElement('div');
+        el.className = `oracle-item anim-scaleIn delay-${i+4}`;
+        el.innerHTML = `
+          <div class="oracle-icon" style="color: var(--primary);">${item.icon}</div>
+          <div class="oracle-val">${item.val}</div>
+          <div class="oracle-lbl">${item.lbl}</div>
+        `;
+        oGrid.appendChild(el);
+      });
+
+      // Dark Mode Toggle
+      const btnDark = document.getElementById('btn-dark-mode');
+      if (document.body.classList.contains('dark-mode')) btnDark.innerHTML = "<i class='bx bx-sun'></i>";
+      btnDark.addEventListener('click', () => {
+        const isDark = EcoApp.toggleDarkMode();
+        btnDark.innerHTML = isDark ? "<i class='bx bx-sun'></i>" : "<i class='bx bx-moon'></i>";
+      });
+
+      // History
+      const hContainer = document.getElementById('history-container');
+      state.history.forEach((h, i) => {
+        const el = document.createElement('div');
+        el.className = 'history-item anim-fadeInUp';
+        el.style.animationDelay = `${(i*50) + 400}ms`;
+        el.innerHTML = `
+          <div class="history-icon-wrap">${h.icon}</div>
+          <div class="flex-1">
+            <div class="history-action">${h.action}</div>
+            <div class="history-time">${h.time}</div>
+          </div>
+          <div class="history-pts">+${h.pts}</div>
+        `;
+        hContainer.appendChild(el);
+      });
+    });
+  </script>
+</body>
+</html>

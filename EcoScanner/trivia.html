@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>EcoScanner - Trivia</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+  <div class="app-container">
+    <div class="page" style="height: 100vh;">
+      <div class="top-bar anim-fadeInDown">
+        <button class="btn-ghost" style="border: none; padding: 8px; font-size: 24px;" onclick="history.back()">
+          <i class='bx bx-chevron-left' style="color: var(--text-dark);"></i>
+        </button>
+        <div class="top-bar-title" style="flex: 1; text-align: center; margin-right: 36px;">Eco-Trivia</div>
+      </div>
+
+      <div class="content pt-0 flex flex-col justify-c" style="flex: 1; padding: var(--sp-4);">
+        <div class="tc mb-6 anim-scaleIn">
+          <div style="background: var(--purple-soft); width: 80px; height: 80px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; color: var(--purple); margin: 0 auto 16px;">
+            <i class='bx bx-brain'></i>
+          </div>
+          <h2 class="t-xl fw-9 c-dark" id="q-text">¿Cuánto tarda en degradarse una botella de plástico?</h2>
+        </div>
+
+        <div class="flex flex-col gap-3 anim-slideUp delay-1" id="answers-container">
+          <button class="btn btn-ghost w-full" style="padding: 16px; font-size: 16px; border: 2px solid var(--primary-light); text-align: left; justify-content: flex-start; color: var(--text-dark);" onclick="checkAnswer(false)">A) 10 años</button>
+          <button class="btn btn-ghost w-full" style="padding: 16px; font-size: 16px; border: 2px solid var(--primary-light); text-align: left; justify-content: flex-start; color: var(--text-dark);" onclick="checkAnswer(true)">B) 500 años</button>
+          <button class="btn btn-ghost w-full" style="padding: 16px; font-size: 16px; border: 2px solid var(--primary-light); text-align: left; justify-content: flex-start; color: var(--text-dark);" onclick="checkAnswer(false)">C) 1 mes</button>
+        </div>
+
+        <div id="result-overlay" class="hidden tc mt-6 anim-scaleIn">
+          <div class="t-2xl mb-2" id="res-icon" style="font-size: 64px;"></div>
+          <h3 class="t-xl fw-9 c-dark" id="res-title"></h3>
+          <p class="c-mid t-sm mb-4" id="res-desc"></p>
+          <button class="btn btn-primary w-full" onclick="history.back()">Volver al parque</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+  <script src="js/confetti.js"></script>
+  <script>
+    function checkAnswer(isCorrect) {
+      document.getElementById('answers-container').classList.add('hidden');
+      const res = document.getElementById('result-overlay');
+      res.classList.remove('hidden');
+      
+      if (isCorrect) {
+        document.getElementById('res-icon').innerHTML = "<i class='bx bxs-party' style='color: var(--primary);'></i>";
+        document.getElementById('res-title').textContent = "¡Correcto!";
+        document.getElementById('res-title').style.color = "var(--primary)";
+        document.getElementById('res-desc').textContent = "Has ganado +5 Eco-Puntos. ¡Sigue así!";
+        EcoApp.addPoints(5, 'Trivia completada', '<i class="bx bx-joystick"></i>');
+        if (typeof Confetti !== 'undefined') Confetti.fire();
+      } else {
+        document.getElementById('res-icon').innerHTML = "<i class='bx bx-x-circle' style='color: var(--red);'></i>";
+        document.getElementById('res-title').textContent = "¡Uy! Casi.";
+        document.getElementById('res-title').style.color = "var(--red)";
+        document.getElementById('res-desc').textContent = "La respuesta correcta era 500 años. ¡Inténtalo de nuevo mañana!";
+      }
+    }
+  </script>
+</body>
+</html>

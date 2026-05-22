@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>EcoScanner - Mapa Eco-Interactivo</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body style="overflow: hidden;">
+  <div class="app-container">
+    <div class="page" style="height: 100vh;">
+    
+    <!-- Floating Header Over Map -->
+    <div style="position: absolute; top: 0; left: 0; right: 0; z-index: 10; padding: var(--sp-4);">
+      <div class="card p-3 flex items-c justify-b shadow-md anim-fadeInDown">
+        <button class="btn-ghost" style="border: none; padding: 4px; font-size: 24px;" onclick="history.back()">
+          <i class='bx bx-chevron-left' style="color: var(--text-dark);"></i>
+        </button>
+        <div class="t-base fw-8 c-dark">Mapa Eco-Interactivo</div>
+        <div class="badge badge-primary"><i class='bx bxs-circle' style="font-size: 8px;"></i> En vivo</div>
+      </div>
+      
+      <!-- Info Pill -->
+      <div class="mt-3 tc anim-fadeInDown delay-1">
+        <div class="inline-flex items-c gap-2 bg-card rounded-full px-4 py-2 shadow-sm t-xs fw-7 c-dark">
+          <span style="color: var(--primary);"><i class='bx bxs-circle'></i></span> Poca actividad (+5 pts bonus)
+          <span style="margin-left:8px; color: var(--orange);"><i class='bx bxs-circle'></i></span> Alta actividad
+        </div>
+      </div>
+    </div>
+
+    <!-- Map Area (Simulated with SVG and CSS) -->
+    <div class="flex-1 relative" style="background: #E8F5E9; overflow: hidden; height: 100%;">
+      <!-- Simulated map background (paths) -->
+      <svg width="100%" height="100%" style="position: absolute; inset: 0;">
+        <path d="M 50 100 Q 150 50 300 200 T 500 150" fill="none" stroke="rgba(0,201,167,0.2)" stroke-width="20" stroke-linecap="round"/>
+        <path d="M 100 300 Q 250 400 400 250" fill="none" stroke="rgba(0,201,167,0.2)" stroke-width="16" stroke-linecap="round"/>
+        <path d="M -50 500 Q 200 450 350 600" fill="none" stroke="rgba(0,201,167,0.2)" stroke-width="24" stroke-linecap="round"/>
+      </svg>
+      
+      <!-- User Location -->
+      <div class="anim-pulse" style="position: absolute; top: 50%; left: 40%; transform: translate(-50%, -50%);">
+        <div style="width: 24px; height: 24px; background: var(--blue); border: 4px solid white; border-radius: 50%; box-shadow: 0 0 0 8px rgba(75,158,255,0.3);"></div>
+      </div>
+
+      <!-- Eco Points (Pins) -->
+      <!-- Low Activity (Bonus) -->
+      <div class="map-pin anim-bounceIn delay-2" style="position: absolute; top: 25%; left: 70%;">
+        <svg width="40" height="40" viewBox="0 0 40 40">
+          <circle cx="20" cy="20" r="16" fill="var(--primary-light)" stroke="var(--primary)" stroke-width="3"/>
+          <text x="20" y="25" font-size="16" text-anchor="middle" fill="var(--primary)">♻️</text>
+        </svg>
+        <div class="badge badge-yellow" style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); font-size: 9px;">+5 pts</div>
+      </div>
+
+      <!-- High Activity -->
+      <div class="map-pin anim-bounceIn delay-3" style="position: absolute; top: 60%; left: 25%;">
+        <svg width="40" height="40" viewBox="0 0 40 40">
+          <circle cx="20" cy="20" r="16" fill="var(--orange-soft)" stroke="var(--orange)" stroke-width="3"/>
+          <text x="20" y="25" font-size="16" text-anchor="middle" fill="var(--orange)">♻️</text>
+        </svg>
+      </div>
+
+      <!-- Normal Activity -->
+      <div class="map-pin anim-bounceIn delay-4" style="position: absolute; top: 75%; left: 80%;">
+        <div style="background: var(--primary-light); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; color: var(--primary); border: 2px solid var(--primary);">
+          <i class='bx bx-recycle'></i>
+        </div>
+      </div>
+
+      <!-- Selected Pin Info (Hidden by default) -->
+      <div id="pin-info" class="card p-4 absolute bottom-0 left-0 w-full anim-slideUp hidden" style="border-radius: var(--r-xl) var(--r-xl) 0 0; margin-bottom: var(--nav-h); z-index: 20;">
+        <div class="flex items-c justify-b mb-2">
+          <h3 class="t-md fw-8 c-dark">Zona Jungle Burger</h3>
+          <span class="t-xs fw-7 c-primary">A 120m</span>
+        </div>
+        <p class="t-sm c-mid mb-4">Contenedores de orgánico y envases. Nivel de llenado: <span class="fw-7 c-primary">Bajo</span>.</p>
+        <button class="btn btn-primary w-full" onclick="location.href='index.html'">Ir y Escanear</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Nav -->
+  <nav class="bottom-nav">
+    <div class="nav-item" id="nav-index" onclick="location.href='index.html'">
+      <i class='bx bx-qr-scan nav-icon'></i>
+      <span class="nav-label">Escanear</span>
+    </div>
+    <div class="nav-item" id="nav-dashboard" onclick="location.href='dashboard.html'">
+      <i class='bx bx-trophy nav-icon'></i>
+      <span class="nav-label">Ranking</span>
+    </div>
+    <div class="nav-item" id="nav-marketplace" onclick="location.href='marketplace.html'">
+      <i class='bx bx-gift nav-icon'></i>
+      <span class="nav-label">Premios</span>
+    </div>
+    <div class="nav-item active" id="nav-map" onclick="location.href='mapa.html'">
+      <i class='bx bx-map-alt nav-icon'></i>
+      <span class="nav-label">Mapa</span>
+    </div>
+    <div class="nav-item" id="nav-profile" onclick="location.href='profile.html'">
+      <i class='bx bx-user nav-icon'></i>
+      <span class="nav-label">Perfil</span>
+    </div>
+  </nav>
+  </div> <!-- app-container -->
+
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      EcoApp.initNav('map');
+      
+      const pins = document.querySelectorAll('.map-pin');
+      const info = document.getElementById('pin-info');
+
+      pins.forEach(pin => {
+        pin.addEventListener('click', (e) => {
+          e.stopPropagation();
+          info.classList.remove('hidden');
+        });
+      });
+      
+      // Tap outside to close
+      document.querySelector('.relative').addEventListener('click', () => {
+        info.classList.add('hidden');
+      });
+    });
+  </script>
+</body>
+</html>

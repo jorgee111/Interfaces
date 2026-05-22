@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>EcoScanner - Juega, Come, Impacta</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+  <div class="app-container">
+    <div class="page flex-col justify-c" style="padding-bottom: var(--sp-6);">
+      
+      <!-- Leaf Logo and Title -->
+      <div class="tc mb-6 anim-fadeInDown">
+        <div style="background: var(--primary-gradient); display: inline-flex; align-items: center; justify-content: center; width: 64px; height: 64px; border-radius: 20px; margin-bottom: 16px; box-shadow: var(--shadow-sm);">
+          <i class='bx bx-leaf' style="color: white; font-size: 36px;"></i>
+        </div>
+        <h1 class="t-3xl fw-9 c-dark" style="line-height: 1.1;">
+          ¡Haz del Parque<br>un Lugar Más <br><span class="c-primary">Verde!</span>
+        </h1>
+        <p class="c-mid t-base mt-3 fw-6 px-4">
+          Recicla, gana puntos y desbloquea<br>recompensas increíbles
+        </p>
+      </div>
+
+      <!-- Onboarding Steps -->
+      <div class="flex flex-col gap-3 mb-6">
+        <div class="onboard-step anim-slideUp delay-1">
+          <div class="onboard-step-icon" style="background: #E8F5E9; color: var(--primary-dark);">
+            <i class='bx bx-qr-scan'></i>
+          </div>
+          <div class="onboard-step-text">Escanea códigos QR en las bandejas y contenedores</div>
+        </div>
+        <div class="onboard-step anim-slideUp delay-2">
+          <div class="onboard-step-icon" style="background: #E0F7FA; color: #00B8D4;">
+            <i class='bx bx-sparkles'></i>
+          </div>
+          <div class="onboard-step-text">Gana Eco-Puntos por cada acción sostenible</div>
+        </div>
+        <div class="onboard-step anim-slideUp delay-3">
+          <div class="onboard-step-icon" style="background: #FFF8E1; color: #FFB300;">
+            <i class='bx bx-group'></i>
+          </div>
+          <div class="onboard-step-text">Compite con amigos o únete a una patrulla</div>
+        </div>
+      </div>
+
+      <!-- Action Area -->
+      <div class="mt-4 anim-slideUp delay-4">
+        <button id="btn-scan-start" class="btn btn-primary w-full" style="padding: 20px; font-size: 18px;">
+          <i class='bx bx-qr-scan' style="font-size: 24px;"></i> Escanear QR
+        </button>
+        <p class="tc t-xs c-muted mt-3 fw-6">Sin descargas. Sin registros complicados. Solo escanea y juega.</p>
+      </div>
+    </div>
+
+    <!-- Scanner Modal -->
+    <div id="scanner-modal" class="modal-overlay hidden">
+      <div class="modal-sheet tc" style="padding-bottom: 40px; position:relative;">
+        <button class="modal-close-btn" id="btn-close-scanner">×</button>
+        <div class="modal-handle"></div>
+        <h2 class="t-xl fw-9 c-dark mb-4" id="scanner-title">Escanear Contenedor</h2>
+        
+        <div class="scanner-frame" id="scanner-view">
+          <div class="scanner-corner tl"></div>
+          <div class="scanner-corner tr"></div>
+          <div class="scanner-corner bl"></div>
+          <div class="scanner-corner br"></div>
+          <div class="scanner-line"></div>
+          <div class="scanner-icon"><i class='bx bx-camera'></i></div>
+          <!-- AI Bounding Box -->
+          <div id="ai-bbox" class="hidden" style="position: absolute; border: 2px solid var(--primary); background: rgba(0,230,118, 0.1); top: 20%; left: 20%; width: 60%; height: 60%; transition: all 0.3s;">
+            <div style="position: absolute; bottom: -24px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 4px; white-space: nowrap;">
+              <i class='bx bx-check'></i> Botella (98%)
+            </div>
+          </div>
+        </div>
+
+        <div id="scanner-loading" class="hidden py-8">
+          <div class="spinner"></div>
+          <p class="mt-4">Verificando código...</p>
+        </div>
+
+        <p id="scanner-desc" class="c-mid t-sm my-6 fw-6 px-4">
+          Busca los códigos QR en las bandejas o contenedores de reciclaje.
+        </p>
+
+        <div id="scanner-actions" class="flex flex-col gap-3">
+          <button id="btn-scan-success" class="btn btn-primary w-full">Simular Éxito</button>
+          <button id="btn-scan-error" class="btn btn-outline w-full">Simular Error</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="modal-overlay hidden">
+      <div class="modal-sheet tc">
+        <button class="modal-close-btn" id="btn-close-success">×</button>
+        <div style="font-size: 64px; color: var(--primary);"><i class='bx bxs-party'></i></div>
+        <h2 class="t-2xl fw-9 c-dark mt-2">¡Bien hecho!</h2>
+        <p class="c-mid mt-2 mb-6">Has ganado 50 Eco-Puntos.</p>
+        <button id="btn-awesome" class="btn btn-primary w-full">¡Genial!</button>
+      </div>
+    </div>
+
+    <!-- Bottom Nav -->
+    <nav class="bottom-nav anim-slideUp delay-5">
+      <div class="nav-item active" id="nav-index" onclick="location.href='index.html'">
+        <i class='bx bx-qr-scan nav-icon'></i>
+        <span class="nav-label">Escanear</span>
+      </div>
+      <div class="nav-item" id="nav-dashboard" onclick="location.href='dashboard.html'">
+        <i class='bx bx-trophy nav-icon'></i>
+        <span class="nav-label">Ranking</span>
+      </div>
+      <div class="nav-item" id="nav-marketplace" onclick="location.href='marketplace.html'">
+        <i class='bx bx-gift nav-icon'></i>
+        <span class="nav-label">Premios</span>
+      </div>
+      <div class="nav-item" id="nav-map" onclick="location.href='mapa.html'">
+        <i class='bx bx-map-alt nav-icon'></i>
+        <span class="nav-label">Mapa</span>
+      </div>
+      <div class="nav-item" id="nav-profile" onclick="location.href='profile.html'">
+        <i class='bx bx-user nav-icon'></i>
+        <span class="nav-label">Perfil</span>
+      </div>
+    </nav>
+  </div> <!-- app-container close -->
+
+  <script src="js/app.js"></script>
+  <script src="js/confetti.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      EcoApp.initNav('index');
+      
+      const scanStart = document.getElementById('btn-scan-start');
+      const scannerModal = document.getElementById('scanner-modal');
+      const scanSuccess = document.getElementById('btn-scan-success');
+      const scanError = document.getElementById('btn-scan-error');
+      const successModal = document.getElementById('success-modal');
+      const btnAwesome = document.getElementById('btn-awesome');
+
+      const closeScanner = document.getElementById('btn-close-scanner');
+      const closeSuccess = document.getElementById('btn-close-success');
+      
+      const sView = document.getElementById('scanner-view');
+      const sDesc = document.getElementById('scanner-desc');
+      const sActions = document.getElementById('scanner-actions');
+      const sLoading = document.getElementById('scanner-loading');
+      const sTitle = document.getElementById('scanner-title');
+
+      function resetScannerUI() {
+        sView.classList.remove('hidden');
+        sDesc.classList.remove('hidden');
+        sActions.classList.remove('hidden');
+        sLoading.classList.add('hidden');
+        sTitle.textContent = 'Escanear Contenedor';
+        sDesc.style.color = 'var(--mid)';
+      }
+
+      scanStart.addEventListener('click', () => {
+        resetScannerUI();
+        scannerModal.classList.remove('hidden');
+      });
+
+      closeScanner.addEventListener('click', () => scannerModal.classList.add('hidden'));
+      closeSuccess.addEventListener('click', () => successModal.classList.add('hidden'));
+
+      // Error Simulation
+      scanError.addEventListener('click', () => {
+        sTitle.textContent = 'Error de Cámara';
+        sView.classList.add('hidden');
+        sDesc.textContent = 'No pudimos acceder a tu cámara. Por favor verifica los permisos del navegador e inténtalo de nuevo.';
+        sDesc.style.color = 'var(--red)';
+        sActions.innerHTML = `<button class="btn btn-primary w-full" onclick="resetScannerUI()">Reintentar</button>`;
+      });
+
+      // AI Simulation Sequence
+      scanSuccess.addEventListener('click', () => {
+        sActions.classList.add('hidden');
+        sTitle.textContent = 'Analizando con IA...';
+        sDesc.textContent = 'Identificando tipo de material...';
+        sDesc.style.color = 'var(--primary)';
+        
+        const bbox = document.getElementById('ai-bbox');
+        bbox.classList.remove('hidden');
+        
+        // Simular movimiento del bounding box
+        setTimeout(() => {
+          bbox.style.width = '40%'; bbox.style.height = '70%'; bbox.style.left = '30%'; bbox.style.top = '15%';
+        }, 500);
+
+        setTimeout(() => {
+          sTitle.textContent = '¡Material detectado!';
+          sDesc.textContent = 'Plástico PET listo para reciclar.';
+          
+          setTimeout(() => {
+            EcoApp.addPoints(50);
+            scannerModal.classList.add('hidden');
+            successModal.classList.remove('hidden');
+            Confetti.fire();
+            // Reset state
+            bbox.classList.add('hidden');
+            bbox.style = "position: absolute; border: 2px solid var(--primary); background: rgba(0,230,118, 0.1); top: 20%; left: 20%; width: 60%; height: 60%; transition: all 0.3s;";
+          }, 1500);
+        }, 1500);
+      });
+
+      btnAwesome.addEventListener('click', () => {
+        successModal.classList.add('hidden');
+      });
+    });
+  </script>
+</body>
+</html>

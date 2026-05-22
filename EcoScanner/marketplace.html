@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>EcoScanner - Marketplace</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+</head>
+<body>
+  <div class="app-container">
+    <div class="page">
+    
+    <div class="content">
+      <div class="flex items-c gap-3 mb-2 anim-fadeInDown">
+        <div style="background: #FFB300; padding: 8px; border-radius: 12px; font-size: 24px; color: white; display: flex; align-items: center;">
+          <i class='bx bxs-gift'></i>
+        </div>
+        <h1 class="t-2xl fw-9 c-dark">Marketplace</h1>
+      </div>
+      <p class="c-mid t-sm mb-4 fw-6 anim-fadeInDown delay-1">
+        Canjea tus Eco-Puntos por recompensas increíbles
+      </p>
+
+      <div class="sticky top-0 z-10 py-2 bg-app anim-scaleIn delay-2" style="position: sticky; top: -16px; background: var(--bg-app); padding-top: 16px; padding-bottom: 16px; z-index: 10;">
+        <div class="inline-flex items-c gap-2 px-4 py-2 bg-primary text-white rounded-full shadow-primary" style="background: var(--primary-gradient); color: white; border-radius: 999px; font-weight: 800;">
+          <i class='bx bx-sparkles' style="font-size: 18px;"></i>
+          <span id="user-pts" style="font-size: 16px;">0 Eco-Puntos</span>
+        </div>
+      </div>
+
+      <!-- Categories Filter -->
+      <div class="flex gap-2 overflow-x-auto pb-2 mt-2 hide-scrollbar anim-slideUp delay-3" style="overflow-x: auto; white-space: nowrap; -ms-overflow-style: none; scrollbar-width: none;">
+        <div class="badge badge-primary px-3 py-2" style="font-size: 13px;">Todos</div>
+        <div class="badge badge-orange px-3 py-2" style="font-size: 13px;">Descuentos</div>
+        <div class="badge badge-purple px-3 py-2" style="font-size: 13px;">Fast Pass</div>
+        <div class="badge px-3 py-2" style="background: var(--green2); color: white; font-size: 13px;">Comida</div>
+      </div>
+
+      <!-- Rewards Grid -->
+      <div class="flex flex-col gap-4 mt-4 pb-4" id="rewards-container">
+        <!-- Populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Confirmación -->
+  <div id="redeem-modal" class="modal-overlay hidden">
+    <div class="modal-sheet tc" style="padding-bottom: 40px;">
+      <button class="modal-close-btn" id="btn-close-redeem">×</button>
+      <div class="modal-handle"></div>
+      <div id="modal-icon" style="font-size: 64px; margin-bottom: 16px; color: var(--primary);"><i class='bx bxs-gift'></i></div>
+      <h2 class="t-xl fw-9 c-dark mb-2" id="modal-title">Canjear Premio</h2>
+      <p class="c-mid t-base mb-2 fw-6" id="modal-desc">¿Estás seguro que deseas canjear este premio por <span id="modal-cost" class="c-dark fw-8">0</span> puntos?</p>
+      <p class="t-sm fw-7 c-primary mb-6" id="modal-post-pts">Te quedarán 0 puntos.</p>
+      
+      <div class="flex gap-3">
+        <button class="btn btn-secondary flex-1" id="btn-cancel">Cancelar</button>
+        <button class="btn btn-primary flex-1" id="btn-confirm">Sí, canjear</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Nav -->
+  <nav class="bottom-nav">
+    <div class="nav-item" id="nav-index" onclick="location.href='index.html'">
+      <i class='bx bx-qr-scan nav-icon'></i>
+      <span class="nav-label">Escanear</span>
+    </div>
+    <div class="nav-item" id="nav-dashboard" onclick="location.href='dashboard.html'">
+      <i class='bx bx-trophy nav-icon'></i>
+      <span class="nav-label">Ranking</span>
+    </div>
+    <div class="nav-item active" id="nav-marketplace" onclick="location.href='marketplace.html'">
+      <i class='bx bx-gift nav-icon'></i>
+      <span class="nav-label">Premios</span>
+    </div>
+    <div class="nav-item" id="nav-map" onclick="location.href='mapa.html'">
+      <i class='bx bx-map-alt nav-icon'></i>
+      <span class="nav-label">Mapa</span>
+    </div>
+    <div class="nav-item" id="nav-profile" onclick="location.href='profile.html'">
+      <i class='bx bx-user nav-icon'></i>
+      <span class="nav-label">Perfil</span>
+    </div>
+  </nav>
+  </div> <!-- app-container -->
+
+  <script src="js/app.js"></script>
+  <script src="js/confetti.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      EcoApp.initNav('marketplace');
+      const ptsEl = document.getElementById('user-pts');
+      
+      function updatePts() {
+        ptsEl.textContent = `${EcoApp.getPoints()} Eco-Puntos`;
+      }
+      updatePts();
+
+      const container = document.getElementById('rewards-container');
+      const catalog = EcoApp.getCatalog();
+      let selectedReward = null;
+
+      const modal = document.getElementById('redeem-modal');
+      const mTitle = document.getElementById('modal-title');
+      const mCost = document.getElementById('modal-cost');
+      const mIcon = document.getElementById('modal-icon');
+      const mPostPts = document.getElementById('modal-post-pts');
+      const btnCloseRedeem = document.getElementById('btn-close-redeem');
+
+      function renderCatalog() {
+        container.innerHTML = '';
+        const userPts = EcoApp.getPoints();
+
+        catalog.forEach((item, i) => {
+          const canAfford = userPts >= item.cost;
+          const el = document.createElement('div');
+          el.className = `reward-card anim-slideUp delay-${(i%5)+2}`;
+          
+          let btnClass = 'btn-primary';
+          if (!canAfford) btnClass = 'btn-secondary btn-disabled';
+          
+          let btnText = '<i class="bx bxs-zap" style="font-size: 18px;"></i> Canjear';
+          if (EcoApp.get().redeemedIds.includes(item.id)) {
+            btnClass = 'btn-secondary btn-disabled';
+            btnText = '<i class="bx bx-check"></i> Canjeado';
+          }
+
+          el.innerHTML = `
+            <div class="reward-card-banner" style="background: ${item.color};">
+              <div class="reward-icon" style="font-size: 40px; color: white; opacity: 0.9;">${item.icon}</div>
+              <div class="reward-cat-tag" style="text-transform: capitalize;">${item.category}</div>
+            </div>
+            <div class="reward-body">
+              <div class="reward-title">${item.title}</div>
+              <div class="reward-desc">${item.desc}</div>
+              <div class="reward-footer">
+                <div class="reward-cost">
+                  <i class='bx bx-star' style="color: #FFB300; font-size: 18px;"></i>
+                  <span style="font-size: 18px; color: ${canAfford ? 'var(--text-dark)' : 'var(--text-muted)'};">${item.cost}</span>
+                  <span style="font-size: 12px; font-weight: 600; color: var(--text-mid);">puntos</span>
+                </div>
+                <button class="btn ${btnClass} btn-sm redeem-btn" data-id="${item.id}" style="padding: 10px 20px;">
+                  ${btnText}
+                </button>
+              </div>
+            </div>
+          `;
+          container.appendChild(el);
+        });
+
+        document.querySelectorAll('.redeem-btn:not(.btn-disabled)').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            const id = e.currentTarget.getAttribute('data-id');
+            selectedReward = catalog.find(r => r.id === id);
+            mTitle.textContent = selectedReward.title;
+            mCost.textContent = selectedReward.cost;
+            mIcon.textContent = selectedReward.icon;
+            mPostPts.textContent = `Te quedarán ${userPts - selectedReward.cost} puntos.`;
+            modal.classList.remove('hidden');
+          });
+        });
+      }
+
+      renderCatalog();
+
+      const closeModal = () => {
+        modal.classList.add('hidden');
+        selectedReward = null;
+      };
+
+      document.getElementById('btn-cancel').addEventListener('click', closeModal);
+      btnCloseRedeem.addEventListener('click', closeModal);
+
+      document.getElementById('btn-confirm').addEventListener('click', () => {
+        if (selectedReward && EcoApp.spendPoints(selectedReward.cost)) {
+          EcoApp.get().redeemedIds.push(selectedReward.id);
+          EcoApp.save();
+          modal.classList.add('hidden');
+          Confetti.goldFire();
+          updatePts();
+          renderCatalog();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
