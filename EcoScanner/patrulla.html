@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Mi Patrulla — EcoScanner Adventures</title>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+  <div class="app-container">
+
+<div class="page" style="padding-bottom: calc(var(--nav-h) + 8px);">
+
+          <!-- Top Bar -->
+          <div class="top-bar anim-fadeInDown">
+            <div class="top-bar-title">🛡️ Mi Patrulla</div>
+            <div style="font-size:13px; font-weight:700; color:var(--primary); cursor:pointer;" id="btn-switch-view">Ver Ranking</div>
+          </div>
+
+          <!-- ── VIEW: NO PATROL ── -->
+          <div id="view-no-patrol" class="content pt-0">
+
+            <!-- Hero Card -->
+            <div class="hero-card anim-fadeInUp" style="text-align:center; margin-bottom: var(--sp-4);">
+              <div style="font-size:56px; margin-bottom:12px;">🛡️</div>
+              <h2 style="font-size:22px; font-weight:900; margin-bottom:8px;">¡Únete a una Patrulla!</h2>
+              <p style="font-size:13px; opacity:0.9; line-height:1.5;">Las patrullas completan misiones grupales, escalan en el ranking y ganan premios especiales juntos.</p>
+            </div>
+
+            <!-- Create Patrol -->
+            <div class="card card-padded anim-fadeInUp delay-1" style="margin-bottom: var(--sp-3);">
+              <div class="flex items-c gap-3 mb-3">
+                <div style="width:44px;height:44px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-radius:14px;display:flex;align-items:center;justify-content:center;">
+                  <i class='bx bx-plus' style="color:white;font-size:22px;"></i>
+                </div>
+                <div>
+                  <div class="t-base fw-8 c-dark">Crear Patrulla</div>
+                  <div class="t-xs c-mid fw-6">Tú eliges el nombre, invitas al grupo</div>
+                </div>
+              </div>
+              <input type="text" id="input-patrol-name" placeholder="Nombre de tu patrulla..." 
+                style="width:100%;padding:12px 16px;border:2px solid rgba(0,191,165,0.2);border-radius:14px;font-family:inherit;font-size:14px;font-weight:700;color:var(--text-dark);background:var(--bg-app);outline:none;margin-bottom:12px;box-sizing:border-box;"
+                maxlength="24">
+              <button class="btn btn-primary w-full" id="btn-create-patrol" style="padding:12px;font-size:14px;">
+                <i class='bx bx-shield-plus'></i> Crear Mi Patrulla
+              </button>
+            </div>
+
+            <div style="text-align:center;color:var(--text-muted);font-size:12px;font-weight:700;margin:8px 0;">— o —</div>
+
+            <!-- Join Patrol -->
+            <div class="card card-padded anim-fadeInUp delay-2">
+              <div class="flex items-c gap-3 mb-3">
+                <div style="width:44px;height:44px;background:linear-gradient(135deg,var(--purple),#5b35d5);border-radius:14px;display:flex;align-items:center;justify-content:center;">
+                  <i class='bx bx-link' style="color:white;font-size:22px;"></i>
+                </div>
+                <div>
+                  <div class="t-base fw-8 c-dark">Unirse por Código</div>
+                  <div class="t-xs c-mid fw-6">Introduce el código de 4 letras</div>
+                </div>
+              </div>
+              <div class="flex gap-2">
+                <input type="text" id="input-patrol-code" placeholder="ECO1" 
+                  style="flex:1;padding:12px 16px;border:2px solid rgba(124,92,252,0.2);border-radius:14px;font-family:inherit;font-size:18px;font-weight:900;color:var(--text-dark);background:var(--bg-app);outline:none;text-transform:uppercase;text-align:center;letter-spacing:4px;box-sizing:border-box;"
+                  maxlength="4">
+                <button class="btn btn-purple" id="btn-join-patrol" style="padding:12px 16px;font-size:13px;width:auto;">
+                  Unirse
+                </button>
+              </div>
+              <p class="t-xs c-muted fw-6 mt-2 tc">Prueba: ECO1, FURN o BLUE</p>
+            </div>
+
+          </div>
+
+          <!-- ── VIEW: MY PATROL ── -->
+          <div id="view-my-patrol" class="content pt-0 hidden">
+
+            <!-- Patrol Hero -->
+            <div class="quest-hero anim-fadeInUp" id="patrol-hero" style="margin-bottom:32px;">
+              <div class="flex items-c justify-b mb-3">
+                <div>
+                  <div style="font-size:11px;font-weight:800;opacity:0.8;text-transform:uppercase;letter-spacing:1px;">Tu Patrulla</div>
+                  <div class="t-xl fw-9" id="patrol-name-display">---</div>
+                </div>
+                <div style="background:rgba(255,255,255,0.2);border-radius:12px;padding:8px 14px;text-align:center;">
+                  <div style="font-size:10px;font-weight:800;opacity:0.8;">CÓDIGO</div>
+                  <div style="font-size:20px;font-weight:900;letter-spacing:3px;" id="patrol-code-display">---</div>
+                </div>
+              </div>
+              <div class="flex items-c justify-b">
+                <div>
+                  <div style="font-size:11px;font-weight:700;opacity:0.7;">Puntos totales</div>
+                  <div style="font-size:28px;font-weight:900;" id="patrol-pts-display">0</div>
+                </div>
+                <div>
+                  <div style="font-size:11px;font-weight:700;opacity:0.7;">Miembros</div>
+                  <div style="font-size:28px;font-weight:900;" id="patrol-members-count">0</div>
+                </div>
+                <div>
+                  <div style="font-size:11px;font-weight:700;opacity:0.7;">Rango</div>
+                  <div style="font-size:28px;font-weight:900;">#<span id="patrol-rank">--</span></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Members -->
+            <h3 class="card-section-title mb-4 px-4" style="font-size: 20px;">👥 Miembros</h3>
+            <div id="patrol-members-list" class="flex flex-col gap-3 px-4 mb-6"></div>
+
+            <!-- Group Mission -->
+            <h3 class="card-section-title mb-4 px-4" style="font-size: 20px;">⚡ Misión Grupal del Día</h3>
+            <div class="card p-5 mx-4 mb-6 anim-fadeInUp delay-3" style="border-left:4px solid var(--adventure-gold);">
+              <div class="flex items-c gap-3 mb-3">
+                <div style="font-size:32px;">🌿</div>
+                <div>
+                  <div class="t-base fw-8 c-dark">Escaneos del Equipo</div>
+                  <div class="t-xs c-mid fw-6">Completad 10 escaneos entre todos hoy</div>
+                </div>
+              </div>
+              <div class="flex items-c justify-b mb-2">
+                <span class="t-xs fw-7 c-mid">Progreso del equipo</span>
+                <span class="t-sm fw-9 c-dark"><span id="group-scan-count">7</span>/10</span>
+              </div>
+              <div style="background:var(--primary-light);border-radius:8px;height:10px;overflow:hidden;">
+                <div id="group-scan-bar" style="width:70%;height:100%;background:var(--primary-gradient);border-radius:8px;transition:width 1s;"></div>
+              </div>
+              <div class="t-xs c-mid fw-6 mt-2">Recompensa grupal: <span class="c-dark fw-8">+100 pts para cada miembro</span></div>
+            </div>
+
+            <!-- Share code -->
+            <div class="card card-padded mx-4 mb-5 anim-fadeInUp delay-4" style="border:2px dashed rgba(0,191,165,0.3);text-align:center; padding: 32px 24px;">
+              <i class='bx bx-share-alt' style="font-size:28px;color:var(--primary);margin-bottom:8px;display:block;"></i>
+              <div class="t-sm fw-8 c-dark mb-1">Invita a tus amigos</div>
+              <div class="t-xs c-mid fw-6 mb-3">Comparte el código <strong class="c-dark" id="patrol-share-code">---</strong> para que se unan</div>
+              <button class="btn btn-secondary" style="width:auto;padding:8px 20px;font-size:13px;" id="btn-share-code">
+                <i class='bx bx-copy'></i> Copiar código
+              </button>
+            </div>
+
+          </div>
+
+          <!-- ── VIEW: PATROL RANKING ── -->
+          <div id="view-ranking" class="content pt-0 hidden">
+            <div class="flex items-c justify-b mb-4">
+              <h3 class="card-section-title">🏆 Ranking de Patrullas</h3>
+              <span class="badge badge-live" style="font-size:9px;">EN VIVO</span>
+            </div>
+            <div id="patrol-ranking-list" class="flex flex-col gap-3"></div>
+          </div>
+
+        </div><!-- .page -->
+  
+      
+<script src="js/app.js"></script>
+  <script src="js/confetti.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      EcoApp.initNav('patrulla');
+
+      // Live clock
+      function updateClock() {
+        const now = new Date();
+        const el = document.getElementById('status-clock');
+        if (el) el.textContent = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+      }
+      updateClock(); setInterval(updateClock, 30000);
+
+      let currentView = 'patrol'; // 'patrol' or 'ranking'
+      const btnSwitch = document.getElementById('btn-switch-view');
+      const viewRanking = document.getElementById('view-ranking');
+
+      function renderPatrolView() {
+        const patrol = EcoApp.hasPatrol ? EcoApp.hasPatrol() : false;
+        document.getElementById('view-no-patrol').classList.toggle('hidden', patrol);
+        document.getElementById('view-my-patrol').classList.toggle('hidden', !patrol);
+        if (patrol) renderMyPatrol();
+      }
+
+      function renderMyPatrol() {
+        const p = EcoApp.getMyPatrol ? EcoApp.getMyPatrol() : null;
+        if (!p || !p.joined) return;
+        document.getElementById('patrol-name-display').textContent = p.name;
+        document.getElementById('patrol-code-display').textContent = p.code;
+        document.getElementById('patrol-pts-display').textContent = (p.totalPoints || 0).toLocaleString();
+        document.getElementById('patrol-members-count').textContent = (p.members || []).length;
+        document.getElementById('patrol-share-code').textContent = p.code;
+        // Patrol rank
+        const lb = EcoApp.getPatrolLeaderboard ? EcoApp.getPatrolLeaderboard() : [];
+        const myEntry = lb.find(e => e.isUser);
+        document.getElementById('patrol-rank').textContent = myEntry ? myEntry.rank : '--';
+        // Members
+        const membersList = document.getElementById('patrol-members-list');
+        membersList.innerHTML = (p.members || []).map(m => `
+          <div class="card p-3 flex items-c gap-3 ${m.isMe ? 'anim-glow-border' : ''}" style="${m.isMe ? 'border:2px solid var(--primary);' : ''}">
+            <div style="width:40px;height:40px;background:var(--primary-light);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;">${m.avatar}</div>
+            <div class="flex-1">
+              <div class="t-sm fw-8 c-dark">${m.name} ${m.isMe ? '<span class="badge badge-primary" style="font-size:9px;padding:2px 6px;">Tú</span>' : ''}</div>
+              <div class="t-xs c-mid fw-6">${m.pts} pts</div>
+            </div>
+            <div style="width:8px;height:8px;border-radius:50%;background:${m.online ? '#32d74b' : 'var(--text-muted)'};"></div>
+          </div>
+        `).join('');
+      }
+
+      function renderRankingView() {
+        const lb = EcoApp.getPatrolLeaderboard ? EcoApp.getPatrolLeaderboard() : [];
+        const medals = ['🥇','🥈','🥉'];
+        document.getElementById('patrol-ranking-list').innerHTML = lb.map((e, i) => `
+          <div class="card p-4 flex items-c gap-4 ${e.isUser ? 'anim-fadeInUp' : ''}" 
+            style="${e.isUser ? 'border:3px solid var(--primary);background:var(--primary-light); transform: scale(1.02); box-shadow: 0 10px 20px rgba(0,191,165,0.15);' : 'box-shadow: 0 4px 12px rgba(0,0,0,0.05);'}">
+            <div style="font-size:${i<3?'34px':'24px'};width:44px;text-align:center;font-weight:900;color:${i<3?'inherit':'var(--text-muted)'};">
+              ${i < 3 ? medals[i] : '#' + e.rank}
+            </div>
+            <div class="flex-1">
+              <div class="t-base fw-9 c-dark">${e.name} ${e.isUser ? '<span style="font-size:11px;background:var(--primary);color:white;padding:3px 8px;border-radius:12px;vertical-align:middle;margin-left:6px;">TÚ</span>' : ''}</div>
+              <div class="t-sm c-mid fw-7 mt-1">${e.members} miembros activos</div>
+            </div>
+            <div class="t-lg fw-9" style="color:var(--adventure-gold);">${(e.pts||0).toLocaleString()} <span style="font-size:12px;color:var(--text-muted);display:block;text-align:right;">pts</span></div>
+          </div>
+        `).join('');
+      }
+
+      // Switch between patrol view and ranking
+      btnSwitch.addEventListener('click', () => {
+        if (currentView === 'patrol') {
+          currentView = 'ranking';
+          btnSwitch.textContent = 'Mi Patrulla';
+          document.getElementById('view-no-patrol').classList.add('hidden');
+          document.getElementById('view-my-patrol').classList.add('hidden');
+          viewRanking.classList.remove('hidden');
+          renderRankingView();
+        } else {
+          currentView = 'patrol';
+          btnSwitch.textContent = 'Ver Ranking';
+          viewRanking.classList.add('hidden');
+          renderPatrolView();
+        }
+      });
+
+      // Create patrol
+      document.getElementById('btn-create-patrol').addEventListener('click', () => {
+        const name = document.getElementById('input-patrol-name').value.trim();
+        if (!name) {
+          document.getElementById('input-patrol-name').style.borderColor = 'var(--red)';
+          return;
+        }
+        const code = EcoApp.createPatrol ? EcoApp.createPatrol(name) : 'ECO1';
+        if (typeof Confetti !== 'undefined') Confetti.fire();
+        renderPatrolView();
+      });
+
+      // Join patrol
+      document.getElementById('btn-join-patrol').addEventListener('click', () => {
+        const code = document.getElementById('input-patrol-code').value.trim().toUpperCase();
+        if (code.length < 2) {
+          document.getElementById('input-patrol-code').style.borderColor = 'var(--red)';
+          return;
+        }
+        const patrolName = EcoApp.joinPatrol ? EcoApp.joinPatrol(code) : 'Patrulla ' + code;
+        if (typeof Confetti !== 'undefined') Confetti.fire();
+        renderPatrolView();
+      });
+
+      // Share code
+      document.getElementById('btn-share-code').addEventListener('click', () => {
+        const code = document.getElementById('patrol-share-code').textContent;
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText('¡Únete a mi patrulla en EcoScanner Adventures! Código: ' + code);
+        }
+        document.getElementById('btn-share-code').innerHTML = '<i class=\'bx bx-check\'></i> ¡Copiado!';
+        setTimeout(() => { document.getElementById('btn-share-code').innerHTML = '<i class=\'bx bx-copy\'></i> Copiar código'; }, 2000);
+      });
+
+      renderPatrolView();
+    });
+  </script>
+    <nav class="bottom-nav">
+      <a href="index.html" class="nav-item" id="nav-home">
+        <div class="nav-item-wrap">
+          <i class='bx bx-home-alt'></i>
+          <span class="nav-badge" id="missions-badge" style="display:none;">3</span>
+        </div>
+        <span>Inicio</span>
+      </a>
+      <a href="mapa.html" class="nav-item" id="nav-map">
+        <div class="nav-item-wrap">
+          <i class='bx bx-map'></i>
+          
+        </div>
+        <span>Mapa</span>
+      </a>
+      <a href="escaner.html" class="nav-item" id="nav-escaner">
+        <div class="nav-item-wrap">
+          <i class='bx bx-qr-scan'></i>
+          
+        </div>
+        <span>Escáner</span>
+      </a>
+      <a href="criaturas.html" class="nav-item" id="nav-criaturas">
+        <div class="nav-item-wrap">
+          <i class='bx bxs-leaf'></i>
+          
+        </div>
+        <span>Criaturas</span>
+      </a>
+      <a href="marketplace.html" class="nav-item" id="nav-marketplace">
+        <div class="nav-item-wrap">
+          <i class='bx bx-gift'></i>
+          
+        </div>
+        <span>Premios</span>
+      </a>
+      <a href="patrulla.html" class="nav-item active" id="nav-patrulla">
+        <div class="nav-item-wrap">
+          <i class='bx bx-shield'></i>
+          
+        </div>
+        <span>Patrulla</span>
+      </a>
+      <a href="profile.html" class="nav-item" id="nav-profile">
+        <div class="nav-item-wrap">
+          <i class='bx bx-user'></i>
+          
+        </div>
+        <span>Perfil</span>
+      </a>
+    </nav>
+      </div><!-- .app-container -->
+
+  <script>
+    function updateClock() {
+      const now = new Date();
+      const h = now.getHours().toString().padStart(2,'0');
+      const m = now.getMinutes().toString().padStart(2,'0');
+      const el = document.getElementById('status-clock');
+      if (el) el.textContent = h + ':' + m;
+    }
+    updateClock();
+    setInterval(updateClock, 30000);
+  </script>
+</body>
+</html>

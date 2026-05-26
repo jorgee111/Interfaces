@@ -381,11 +381,11 @@ const EcoApp = (() => {
 
   // ── State ───────────────────────────────────────────────────────
   const defaultState = {
-    user:    { name:'María García', avatar:'⭐' },
+    user:    { name: '', avatar: '⭐' },
     points:  1250,
     rank:    42,
     streak:  3,
-    patrol:  { name:'Los Guardianes Verdes', points:8400, members:12 },
+    patrol:  { joined: false, name: '', code: '', members: [], totalPoints: 0 },
     history: [
       { action:'Separación correcta',    pts:+10, time:'Hace 5 min',  icon:'<i class="bx bx-recycle"></i>' },
       { action:'Envase devuelto',         pts:+15, time:'Hace 20 min', icon:'<i class="bx bx-package"></i>' },
@@ -420,6 +420,12 @@ const EcoApp = (() => {
       answeredIds: [0],
       correctCount: 1,
       streak: 1
+    },
+    dailyMissions: {
+      date: '',
+      completed: [],
+      streak: 0,
+      lastCompletedDate: ''
     }
   };
 
@@ -740,6 +746,19 @@ const EcoApp = (() => {
     return { correct: isCorrect, funFact: question.funFact, streak: s.trivia.streak };
   }
 
+  // === USER / ONBOARDING ===
+  function hasUser() {
+    return !!getState().user.name;
+  }
+  function setUserName(name) {
+    const s = getState();
+    s.user.name = name.trim();
+    saveState(s);
+  }
+  function getUserName() {
+    return getState().user.name || 'Explorador';
+  }
+
   function getTriviaStats() {
     const s = getState();
     return {
@@ -748,6 +767,194 @@ const EcoApp = (() => {
       streak: s.trivia.streak,
       total: TRIVIA_POOL.length
     };
+  }
+
+  // === DAILY MISSIONS ===
+  const DAILY_MISSION_POOL = [
+    { id:'dm1', icon:'<i class="bx bx-recycle"></i>', title:'Recicla 3 envases', desc:'Escanea 3 contenedores de reciclaje distintos en el parque', pts:30, total:3 },
+    { id:'dm2', icon:'<i class="bx bx-brain"></i>', title:'Maestro del trivia', desc:'Responde correctamente 2 preguntas de trivia de naturaleza', pts:20, total:2 },
+    { id:'dm3', icon:'<i class="bx bx-map-alt"></i>', title:'Explorador de zonas', desc:'Visita y escanea en 2 zonas diferentes del parque', pts:25, total:2 },
+    { id:'dm4', icon:'<i class="bx bxs-zap"></i>', title:'Reto relámpago', desc:'Sé el primero de tu grupo en completar una misión hoy', pts:50, total:1 },
+    { id:'dm5', icon:'<i class="bx bx-group"></i>', title:'Patrulla unida', desc:'Completa una acción junto con otro miembro de tu patrulla', pts:40, total:1 },
+    { id:'dm6', icon:'<i class="bx bx-leaf"></i>', title:'Alimenta a tu criatura', desc:'Alimenta a tu criatura compañera 3 veces hoy', pts:15, total:3 },
+    { id:'dm7', icon:'<i class="bx bx-camera"></i>', title:'Documentalista eco', desc:'Completa un escaneo con éxito y sube a 50+ puntos de sesión', pts:20, total:1 },
+  ];
+
+  function getTodayStr() {
+    const d = new Date();
+    return d.toISOString().split('T')[0];
+  }
+
+  function getDailyMissions() {
+    const s = getState();
+    const today = getTodayStr();
+    if (s.dailyMissions.date !== today) {
+      s.dailyMissions.date = today;
+      s.dailyMissions.completed = [];
+      const shuffled = [...DAILY_MISSION_POOL].sort(() => Math.random() - 0.5);
+      s.dailyMissions.activeMissions = shuffled.slice(0, 3).map(m => ({ ...m, progress: 0 }));
+      saveState(s);
+    }
+    if (!s.dailyMissions.activeMissions) {
+      const shuffled = [...DAILY_MISSION_POOL].sort(() => Math.random() - 0.5);
+      s.dailyMissions.activeMissions = shuffled.slice(0, 3).map(m => ({ ...m, progress: 0 }));
+      saveState(s);
+    }
+    return s.dailyMissions.activeMissions.map(m => ({
+      ...m,
+      done: s.dailyMissions.completed.includes(m.id)
+    }));
+  }
+
+  function completeMission(missionId) {
+    const s = getState();
+    if (!s.dailyMissions.completed.includes(missionId)) {
+      s.dailyMissions.completed.push(missionId);
+      const mission = (s.dailyMissions.activeMissions || []).find(m => m.id === missionId);
+      if (mission) addPoints(mission.pts, '¡Misión diaria completada!', '<i class="bx bxs-zap"></i>');
+      if (s.dailyMissions.completed.length >= 3) {
+        const lastDate = s.dailyMissions.lastCompletedDate;
+        const today = getTodayStr();
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        const yStr = yesterday.toISOString().split('T')[0];
+        if (lastDate === yStr) {
+          s.dailyMissions.streak = (s.dailyMissions.streak || 0) + 1;
+        } else if (lastDate !== today) {
+          s.dailyMissions.streak = 1;
+        }
+        s.dailyMissions.lastCompletedDate = today;
+      }
+      saveState(s);
+      document.dispatchEvent(new CustomEvent('eco:mission-completed', { detail: { missionId } }));
+      return true;
+    }
+    return false;
+  }
+
+  function getMissionStreak() {
+    return getState().dailyMissions.streak || 0;
+  }
+
+  function getPendingMissionsCount() {
+    const missions = getDailyMissions();
+    return missions.filter(m => !m.done).length;
+  }
+
+  // === PATROL ===
+  function generateCode() {
+    return Math.random().toString(36).substring(2, 6).toUpperCase();
+  }
+
+  const MOCK_MEMBERS = [
+    { name: 'Alex R.', pts: 320, avatar: '🦊', online: true },
+    { name: 'Laura M.', pts: 280, avatar: '🐢', online: false },
+    { name: 'Pablo G.', pts: 195, avatar: '🦉', online: true },
+    { name: 'Sara T.', pts: 410, avatar: '🌿', online: true },
+    { name: 'Javi L.', pts: 155, avatar: '🌊', online: false },
+  ];
+
+  function createPatrol(name) {
+    const s = getState();
+    const code = generateCode();
+    s.patrol = {
+      joined: true,
+      name: name.trim(),
+      code: code,
+      members: [
+        { name: getUserName(), pts: s.points, avatar: '⭐', online: true, isMe: true },
+        ...MOCK_MEMBERS.slice(0, 3)
+      ],
+      totalPoints: s.points + 320 + 280 + 195
+    };
+    saveState(s);
+    return code;
+  }
+
+  function joinPatrol(code) {
+    const s = getState();
+    const patrolNames = { 'ECO1': 'Green Avengers', 'FURN': 'Faunia Rangers', 'BLUE': 'Blue Guardians' };
+    const patrolName = patrolNames[code.toUpperCase()] || 'Patrulla ' + code.toUpperCase();
+    s.patrol = {
+      joined: true,
+      name: patrolName,
+      code: code.toUpperCase(),
+      members: [
+        { name: getUserName(), pts: s.points, avatar: '⭐', online: true, isMe: true },
+        ...MOCK_MEMBERS.slice(0, 4)
+      ],
+      totalPoints: s.points + 320 + 280 + 195 + 410
+    };
+    saveState(s);
+    return patrolName;
+  }
+
+  function getMyPatrol() {
+    return getState().patrol;
+  }
+
+  function hasPatrol() {
+    return !!(getState().patrol && getState().patrol.joined);
+  }
+
+  // === LEADERBOARD WITH REAL USER ===
+  const FULL_LEADERBOARD = [
+    { rank:1,  name:'Carlos López',   pts:2450, avatar:'<i class="bx bx-leaf"></i>',     badge:'gold'   },
+    { rank:2,  name:'Ana Martínez',   pts:2200, avatar:'<i class="bx bx-world"></i>',    badge:'silver' },
+    { rank:3,  name:'Luis Rodríguez', pts:1980, avatar:'<i class="bx bx-recycle"></i>',  badge:'bronze' },
+    { rank:4,  name:'Elena Torres',   pts:1920, avatar:'<i class="bx bx-seedling"></i>', badge:''       },
+    { rank:5,  name:'David Ruiz',     pts:1750, avatar:'<i class="bx bx-leaf"></i>',     badge:''       },
+    { rank:6,  name:'María García',   pts:1680, avatar:'<i class="bx bxs-star"></i>',    badge:''       },
+    { rank:7,  name:'Pedro Sánchez',  pts:1420, avatar:'<i class="bx bx-leaf"></i>',     badge:''       },
+    { rank:8,  name:'Laura Vega',     pts:1280, avatar:'<i class="bx bx-heart"></i>',    badge:''       },
+    { rank:9,  name:'Marco Díaz',     pts:980,  avatar:'<i class="bx bx-user"></i>',     badge:''       },
+    { rank:10, name:'Isabel Ramos',   pts:820,  avatar:'<i class="bx bx-user"></i>',     badge:''       },
+  ];
+
+  const PATROL_LB = [
+    { rank:1, name:'Green Avengers', pts:12400, members:6 },
+    { rank:2, name:'Faunia Rangers', pts:8920,  members:5 },
+    { rank:3, name:'Blue Guardians', pts:7800,  members:4 },
+    { rank:4, name:'Planet Savers',  pts:6500,  members:5 },
+    { rank:5, name:'Eco Warriors',   pts:5200,  members:3 },
+  ];
+
+  function getFullLeaderboard() {
+    const s = getState();
+    const userName = getUserName();
+    const userPts = s.points;
+    let lb = FULL_LEADERBOARD.map(e => ({ ...e, isUser: false }));
+    let userRank = lb.length + 1;
+    for (let i = 0; i < lb.length; i++) {
+      if (userPts >= lb[i].pts) { userRank = i + 1; break; }
+    }
+    const userEntry = {
+      rank: userRank, name: userName, pts: userPts, avatar: '⭐',
+      badge: userRank === 1 ? 'gold' : userRank === 2 ? 'silver' : userRank === 3 ? 'bronze' : '',
+      isUser: true
+    };
+    lb.splice(userRank - 1, 0, userEntry);
+    lb = lb.slice(0, 10).map((e, i) => ({ ...e, rank: i + 1 }));
+    return lb;
+  }
+
+  function getPatrolLeaderboard() {
+    const s = getState();
+    const patrol = s.patrol;
+    if (!patrol || !patrol.joined) return PATROL_LB;
+    let lb = PATROL_LB.map(e => ({ ...e, isUser: false }));
+    const myPts = patrol.totalPoints || 0;
+    let inserted = false;
+    for (let i = 0; i < lb.length; i++) {
+      if (myPts >= lb[i].pts) {
+        lb.splice(i, 0, { rank: i+1, name: patrol.name, pts: myPts, members: (patrol.members||[]).length, isUser: true });
+        inserted = true;
+        break;
+      }
+    }
+    if (!inserted) lb.push({ rank: lb.length+1, name: patrol.name, pts: myPts, members: (patrol.members||[]).length, isUser: true });
+    lb = lb.slice(0, 5).map((e, i) => ({ ...e, rank: i+1 }));
+    return lb;
   }
 
   return {
@@ -762,6 +969,14 @@ const EcoApp = (() => {
     getDiscoveredCreatures, getAllCreatures, isCreatureDiscovered,
     // Trivia methods
     getRandomQuestion, answerQuestion, getTriviaStats,
+    // User / Onboarding
+    hasUser, setUserName, getUserName,
+    // Daily Missions
+    getDailyMissions, completeMission, getMissionStreak, getPendingMissionsCount,
+    // Patrol
+    createPatrol, joinPatrol, getMyPatrol, hasPatrol,
+    // Enhanced Leaderboards
+    getFullLeaderboard, getPatrolLeaderboard,
     LEVELS, REWARDS_CATALOG,
   };
 })();
